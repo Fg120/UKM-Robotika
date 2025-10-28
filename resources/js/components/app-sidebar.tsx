@@ -73,6 +73,28 @@ const data = {
                 },
             ],
         },
+        {
+            title: "Konten",
+            url: "#",
+            icon: FileText,
+            items: [
+                {
+                    icon: Folder,
+                    title: "Kategori",
+                    url: route('admin.kategoris.index'),
+                },
+                {
+                    icon: Tag,
+                    title: "Tags",
+                    url: route('admin.tags.index'),
+                },
+                {
+                    icon: Newspaper,
+                    title: "Artikel",
+                    url: "#",
+                },
+            ],
+        },
     ],
 }
 

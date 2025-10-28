@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\TagController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -44,6 +46,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [PermissionController::class, 'index'])->middleware('permission:view permissions')->name('index');
         });
 
+        // Kategori management routes
+        Route::prefix('kategoris')->name('kategoris.')->group(function () {
+            Route::get('/', [KategoriController::class, 'index'])->middleware('permission:view kategori')->name('index');
+            Route::get('/create', [KategoriController::class, 'create'])->middleware('permission:create kategori')->name('create');
+            Route::post('/', [KategoriController::class, 'store'])->middleware('permission:create kategori')->name('store');
+            Route::get('/{kategori}', [KategoriController::class, 'show'])->middleware('permission:view kategori')->name('show');
+            Route::get('/{kategori}/edit', [KategoriController::class, 'edit'])->middleware('permission:edit kategori')->name('edit');
+            Route::put('/{kategori}', [KategoriController::class, 'update'])->middleware('permission:edit kategori')->name('update');
+            Route::delete('/{kategori}', [KategoriController::class, 'destroy'])->middleware('permission:delete kategori')->name('destroy');
+            Route::put('/{id}/restore', [KategoriController::class, 'restore'])->middleware('permission:delete kategori')->name('restore');
+        });
+
+        // Tag management routes
+        Route::prefix('tags')->name('tags.')->group(function () {
+            Route::get('/', [TagController::class, 'index'])->middleware('permission:view tag')->name('index');
+            Route::post('/', [TagController::class, 'store'])->middleware('permission:create tag')->name('store');
+            Route::get('/{tag}', [TagController::class, 'show'])->middleware('permission:view tag')->name('show');
+            Route::get('/{tag}/edit', [TagController::class, 'edit'])->middleware('permission:edit tag')->name('edit');
+            Route::put('/{tag}', [TagController::class, 'update'])->middleware('permission:edit tag')->name('update');
+            Route::delete('/{tag}', [TagController::class, 'destroy'])->middleware('permission:delete tag')->name('destroy');
+            Route::put('/{id}/restore', [TagController::class, 'restore'])->middleware('permission:delete tag')->name('restore');
+        });
     });
 });
 
