@@ -42,7 +42,7 @@ function FlashAlerts() {
     if (!flash) return;
     const hasAny = !!(flash.success || flash.error || flash.warning || flash.info);
     if (!hasAny) return;
-    const duration = 2000; // 2 seconds as requested
+    const duration = 5000; // 2 seconds as requested
     if (flash.success) success(flash.success, 'Sukses', duration);
     if (flash.error) error(flash.error, 'Error', duration);
     if (flash.warning) warning(flash.warning, 'Peringatan', duration);

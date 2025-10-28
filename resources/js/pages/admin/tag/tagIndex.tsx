@@ -16,6 +16,7 @@ import TagCreate from './tagCreate';
 import TagEdit from './tagEdit';
 import TagDelete from './tagDelete';
 import AppLayout from '@/layouts/app-layout';
+import { Card } from '@/components/ui/card';
 
 interface Props {
   tags: {
@@ -88,167 +89,168 @@ export default function TagIndex({ tags, filters }: Props) {
     <AppLayout>
       <Head title="Manajemen Tag" />
 
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Manajemen Tag</h1>
+      <Card>
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold">Manajemen Tag</h1>
 
-          <Button onClick={() => setIsCreateOpen(true)}>
-            <Plus className="w-4 h-4 mr-2" />
-            Tambah Tag
-          </Button>
-        </div>
-
-        {/* Search */}
-        <div className="mb-6">
-          <div className="flex gap-2">
-            <Input
-              placeholder="Cari tag berdasarkan nama atau deskripsi..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="max-w-sm"
-            />
-            {search && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSearch('')}
-                title="Hapus pencarian"
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            )}
+            <Button onClick={() => setIsCreateOpen(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Tambah Tag
+            </Button>
           </div>
-        </div>
 
-        {/* Table */}
-        <div className="border rounded-lg">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>
-                  <Button
-                    variant="ghost"
-                    className="h-auto p-0 font-semibold"
-                    onClick={() => handleSortChange('id')}
-                  >
-                    ID
-                    {getSortIcon('id')}
-                  </Button>
-                </TableHead>
-                <TableHead>
-                  <Button
-                    variant="ghost"
-                    className="h-auto p-0 font-semibold"
-                    onClick={() => handleSortChange('nama')}
-                  >
-                    Nama
-                    {getSortIcon('nama')}
-                  </Button>
-                </TableHead>
-                <TableHead>Deskripsi</TableHead>
-                <TableHead>
-                  <Button
-                    variant="ghost"
-                    className="h-auto p-0 font-semibold"
-                    onClick={() => handleSortChange('created_at')}
-                  >
-                    Dibuat
-                    {getSortIcon('created_at')}
-                  </Button>
-                </TableHead>
-                <TableHead className="text-right">Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {tags.data.map((tag) => (
-                <TableRow key={tag.id}>
-                  <TableCell>{tag.id}</TableCell>
-                  <TableCell className="font-medium">{tag.nama}</TableCell>
-                  <TableCell>
-                    {tag.deskripsi ? (
-                      <span className="text-sm text-gray-600 line-clamp-2">
-                        {tag.deskripsi}
-                      </span>
-                    ) : (
-                      <span className="text-gray-400 italic">Tidak ada deskripsi</span>
-                    )}
-                  </TableCell>
-                  <TableCell>{new Date(tag.created_at).toLocaleDateString('id-ID')}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEdit(tag)}
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDelete(tag)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* Pagination */}
-        {tags.meta && tags.meta.last_page > 1 && (
-          <div className="flex justify-center mt-6">
+          {/* Search */}
+          <div className="mb-6">
             <div className="flex gap-2">
-              {tags.links.map((link, index) => (
-                <button
-                  key={index}
-                  className={`px-3 py-2 text-sm rounded ${
-                    link.active
-                      ? 'bg-blue-600 text-white'
-                      : link.url
-                      ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  }`}
-                  onClick={() => link.url && (window.location.href = link.url)}
-                  disabled={!link.url}
-                  dangerouslySetInnerHTML={{ __html: link.label }}
-                />
-              ))}
+              <Input
+                placeholder="Cari tag berdasarkan nama atau deskripsi..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="max-w-sm"
+              />
+              {search && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSearch('')}
+                  title="Hapus pencarian"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              )}
             </div>
           </div>
-        )}
 
-        {/* Modals */}
-        <TagCreate
-          isOpen={isCreateOpen}
-          onClose={() => setIsCreateOpen(false)}
-        />
+          {/* Table */}
+          <div className="border rounded-lg">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>
+                    <Button
+                      variant="ghost"
+                      className="h-auto p-0 font-semibold"
+                      onClick={() => handleSortChange('id')}
+                    >
+                      ID
+                      {getSortIcon('id')}
+                    </Button>
+                  </TableHead>
+                  <TableHead>
+                    <Button
+                      variant="ghost"
+                      className="h-auto p-0 font-semibold"
+                      onClick={() => handleSortChange('nama')}
+                    >
+                      Nama
+                      {getSortIcon('nama')}
+                    </Button>
+                  </TableHead>
+                  <TableHead>Deskripsi</TableHead>
+                  <TableHead>
+                    <Button
+                      variant="ghost"
+                      className="h-auto p-0 font-semibold"
+                      onClick={() => handleSortChange('created_at')}
+                    >
+                      Dibuat
+                      {getSortIcon('created_at')}
+                    </Button>
+                  </TableHead>
+                  <TableHead className="text-right">Aksi</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {tags.data.map((tag) => (
+                  <TableRow key={tag.id}>
+                    <TableCell>{tag.id}</TableCell>
+                    <TableCell className="font-medium">{tag.nama}</TableCell>
+                    <TableCell>
+                      {tag.deskripsi ? (
+                        <span className="text-sm text-gray-600 line-clamp-2">
+                          {tag.deskripsi}
+                        </span>
+                      ) : (
+                        <span className="text-gray-400 italic">Tidak ada deskripsi</span>
+                      )}
+                    </TableCell>
+                    <TableCell>{new Date(tag.created_at).toLocaleDateString('id-ID')}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEdit(tag)}
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDelete(tag)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
 
-        {selectedTag && (
-          <TagEdit
-            isOpen={isEditOpen}
-            onClose={() => {
-              setIsEditOpen(false);
-              setSelectedTag(null);
-            }}
-            tagId={selectedTag.id}
+          {/* Pagination */}
+          {tags.meta && tags.meta.last_page > 1 && (
+            <div className="flex justify-center mt-6">
+              <div className="flex gap-2">
+                {tags.links.map((link, index) => (
+                  <button
+                    key={index}
+                    className={`px-3 py-2 text-sm rounded ${link.active
+                        ? 'bg-blue-600 text-white'
+                        : link.url
+                          ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                          : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      }`}
+                    onClick={() => link.url && (window.location.href = link.url)}
+                    disabled={!link.url}
+                    dangerouslySetInnerHTML={{ __html: link.label }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Modals */}
+          <TagCreate
+            isOpen={isCreateOpen}
+            onClose={() => setIsCreateOpen(false)}
           />
-        )}
 
-        {selectedTag && (
-          <TagDelete
-            isOpen={isDeleteOpen}
-            onClose={() => {
-              setIsDeleteOpen(false);
-              setSelectedTag(null);
-            }}
-            tagId={selectedTag.id}
-          />
-        )}
-      </div>
+          {selectedTag && (
+            <TagEdit
+              isOpen={isEditOpen}
+              onClose={() => {
+                setIsEditOpen(false);
+                setSelectedTag(null);
+              }}
+              tagId={selectedTag.id}
+            />
+          )}
+
+          {selectedTag && (
+            <TagDelete
+              isOpen={isDeleteOpen}
+              onClose={() => {
+                setIsDeleteOpen(false);
+                setSelectedTag(null);
+              }}
+              tagId={selectedTag.id}
+            />
+          )}
+        </div>
+      </Card>
     </AppLayout>
   );
 }

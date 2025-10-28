@@ -22,19 +22,27 @@ class RoleSeeder extends Seeder
             'create users',
             'edit users',
             'delete users',
+
             'view roles',
             'create roles',
             'edit roles',
             'delete roles',
+
             'view permissions',
             'create permissions',
             'edit permissions',
             'delete permissions',
-            // Tag management
+
             'view tag',
             'create tag',
             'edit tag',
             'delete tag',
+
+            'view kategori',
+            'create kategori',
+            'edit kategori',
+            'delete kategori',
+
             'view dashboard',
             'view profile',
             'edit profile',
