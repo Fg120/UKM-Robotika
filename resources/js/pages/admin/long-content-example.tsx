@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import AdminLayout from '@/layouts/admin/admin-layout';
+import AdminLayout from '@/layouts/Layout';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function LongContentExample() {

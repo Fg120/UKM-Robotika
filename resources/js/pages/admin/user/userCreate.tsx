@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
+import { Role } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,6 +12,13 @@ import {
   DialogHeader, 
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { toast } from 'sonner';
 
 interface Props {
@@ -19,12 +27,38 @@ interface Props {
 }
 
 export default function UserCreate({ isOpen, onClose }: Props) {
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const { data, setData, post, processing, reset } = useForm({
     name: '',
     email: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
+    role: '' as string
   });
+
+  // Fetch roles when dialog opens
+  useEffect(() => {
+    if (isOpen) {
+      setLoading(true);
+      fetch('/admin/users/create')
+        .then(response => response.json())
+        .then(data => {
+          if (data.roles) {
+            setRoles(data.roles);
+          }
+        })
+        .catch(error => {
+          toast.error('Gagal memuat data role');
+        })
+        .finally(() => setLoading(false));
+    } else {
+      // Reset form when dialog closes
+      reset();
+      setRoles([]);
+    }
+  }, [isOpen, reset]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,6 +140,23 @@ export default function UserCreate({ isOpen, onClose }: Props) {
                 className="col-span-3"
                 required
               />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="role" className="text-right">
+                Role
+              </Label>
+              <Select value={data.role} onValueChange={(value) => setData('role', value)}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Pilih role" />
+                </SelectTrigger>
+                <SelectContent>
+                  {roles.map((role) => (
+                    <SelectItem key={role.id} value={role.id.toString()}>
+                      {role.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>

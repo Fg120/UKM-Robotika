@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
-import { User } from '@/types';
+import { User, Role } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,6 +12,13 @@ import {
   DialogHeader, 
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { toast } from 'sonner';
 
 interface Props {
@@ -22,13 +29,16 @@ interface Props {
 
 export default function UserEdit({ isOpen, onClose, userId }: Props) {
   const [user, setUser] = useState<User | null>(null);
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [userRole, setUserRole] = useState<string>('');
   const [loading, setLoading] = useState(false);
   
   const { data, setData, put, processing, reset } = useForm({
     name: '',
     email: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
+    role: '' as string
   });
 
   // Fetch user data when dialog opens
@@ -40,11 +50,14 @@ export default function UserEdit({ isOpen, onClose, userId }: Props) {
         .then(data => {
           if (data.user) {
             setUser(data.user);
+            setRoles(data.roles || []);
+            setUserRole(data.userRole ? data.userRole.toString() : '');
             setData({
               name: data.user.name,
               email: data.user.email,
               password: '',
-              password_confirmation: ''
+              password_confirmation: '',
+              role: data.userRole ? data.userRole.toString() : ''
             });
           } else if (data.error) {
             toast.error(data.error);
@@ -59,6 +72,8 @@ export default function UserEdit({ isOpen, onClose, userId }: Props) {
     } else if (!isOpen) {
       // Reset state when dialog closes
       setUser(null);
+      setRoles([]);
+      setUserRole('');
       reset();
     }
   }, [isOpen, userId, setData, reset, onClose]);
@@ -155,6 +170,23 @@ export default function UserEdit({ isOpen, onClose, userId }: Props) {
                 className="col-span-3"
                 placeholder="Kosongkan untuk mempertahankan yang lama"
               />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-role" className="text-right">
+                Role
+              </Label>
+              <Select value={data.role} onValueChange={(value) => setData('role', value)}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Pilih role" />
+                </SelectTrigger>
+                <SelectContent>
+                  {roles.map((role) => (
+                    <SelectItem key={role.id} value={role.id.toString()}>
+                      {role.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>

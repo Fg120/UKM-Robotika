@@ -9,7 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { type BreadcrumbItem } from '@/types';
-import { useSidebar } from '@/layouts/admin/admin-layout';
+import { useSidebar } from '@/layouts/Layout';
 import { Bell, Search, Menu } from 'lucide-react';
 
 interface AdminHeaderProps {

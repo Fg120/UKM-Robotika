@@ -38,5 +38,43 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    roles?: Role[];
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface Role {
+    id: number;
+    name: string;
+    guard_name: string;
+    created_at: string;
+    updated_at: string;
+    permissions?: Permission[];
+}
+
+export interface Permission {
+    id: number;
+    name: string;
+    guard_name: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Kategori {
+    id: number;
+    nama: string;
+    slug: string;
+    deskripsi: string | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+}
+
+export interface Tag {
+    id: number;
+    nama: string;
+    slug: string;
+    deskripsi: string | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
 }

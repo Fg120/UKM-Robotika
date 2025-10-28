@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -39,6 +40,14 @@ class UserController extends Controller
         }
     }
 
+    public function create()
+    {
+        $roles = Role::all();
+        return response()->json([
+            'roles' => $roles,
+        ]);
+    }
+
     public function store(Request $request)
     {
         try {
@@ -46,108 +55,129 @@ class UserController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:8|confirmed',
+                'role' => 'required|exists:roles,id',
             ]);
 
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
 
-            return redirect()->route('admin.users.index')
-                ->with('success', 'Pengguna berhasil dibuat');
+            if ($request->has('role')) {
+                $role = Role::find($request->role);
+                $user->assignRole($role);
+            }
+
+            return back()->with('success', 'Pengguna berhasil dibuat');
         } catch (\Exception $e) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Gagal membuat pengguna: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Gagal membuat pengguna: ' . $e->getMessage());
         }
     }
 
-    public function edit(string $id)
+    public function show(User $user)
     {
-        try {
-            $user = User::findOrFail($id);
-
-            return response()->json([
-                'user' => $user
-            ]);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                'error' => 'Pengguna tidak ditemukan'
-            ], 404);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ], 500);
-        }
+        return Inertia::render('admin/user/userShow', [
+            'user' => $user->load('roles'),
+        ]);
     }
-    public function update(Request $request, string $id)
+
+    public function edit(User $user)
+    {
+        $roles = Role::all();
+        $userRole = $user->roles->first()?->id;
+
+        return response()->json([
+            'user' => $user,
+            'roles' => $roles,
+            'userRole' => $userRole,
+        ]);
+    }
+
+    public function delete(User $user)
+    {
+        return response()->json([
+            'user' => $user,
+        ]);
+    }
+
+    public function update(Request $request, User $user)
     {
         try {
-            $user = User::findOrFail($id);
-
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $user->id,
                 'password' => 'nullable|string|min:8|confirmed',
+                'role' => 'required|exists:roles,id',
             ]);
 
-            $updateData = [
+            $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-            ];
+            ]);
 
             if ($request->filled('password')) {
-                $updateData['password'] = bcrypt($request->password);
+                $user->update([
+                    'password' => bcrypt($request->password),
+                ]);
             }
 
-            $user->update($updateData);
+            if ($request->has('role')) {
+                $role = Role::find($request->role);
+                $user->syncRoles([$role]);
+            }
 
-            return redirect()->route('admin.users.index')
-                ->with('success', 'Pengguna berhasil diperbarui');
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('admin.users.index')
-                ->with('error', 'Pengguna tidak ditemukan');
+            return back()->with('success', 'Pengguna berhasil diperbarui');
         } catch (\Exception $e) {
-            return redirect()->back()
+            return back()
                 ->withInput()
                 ->with('error', 'Gagal memperbarui pengguna: ' . $e->getMessage());
         }
     }
 
-    public function delete(string $id)
+    public function destroy(User $user)
     {
         try {
-            $user = User::findOrFail($id);
+            $user->delete();
 
-            return response()->json([
-                'user' => $user
-            ]);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                'error' => 'Pengguna tidak ditemukan'
-            ], 404);
+            return back()->with('success', 'Pengguna berhasil dihapus');
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ], 500);
+            return back()->with('error', 'Gagal menghapus pengguna: ' . $e->getMessage());
         }
     }
 
-    public function destroy(string $id)
+    public function restore($id)
+    {
+        try {
+            $user = User::withTrashed()->findOrFail($id);
+            $user->restore();
+
+            return back()->with('success', 'Pengguna berhasil dipulihkan');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memulihkan pengguna: ' . $e->getMessage());
+        }
+    }
+
+    public function assignRoles(Request $request, $id)
     {
         try {
             $user = User::findOrFail($id);
-            $user->delete();
 
-            return redirect()->route('admin.users.index')
-                ->with('success', 'Pengguna berhasil dihapus');
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('admin.users.index')
-                ->with('error', 'Pengguna tidak ditemukan');
+            $request->validate([
+                'roles' => 'array',
+                'roles.*' => 'exists:roles,id',
+            ]);
+
+            if ($request->has('roles')) {
+                $roles = Role::whereIn('id', $request->roles)->get();
+                $user->syncRoles($roles);
+            } else {
+                $user->syncRoles([]);
+            }
+
+            return back()->with('success', 'Role pengguna berhasil diperbarui');
         } catch (\Exception $e) {
-            return redirect()->route('admin.users.index')
-                ->with('error', 'Gagal menghapus pengguna: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memperbarui role pengguna: ' . $e->getMessage());
         }
     }
 }

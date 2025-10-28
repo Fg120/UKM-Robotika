@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import AdminLayout from '@/layouts/admin/admin-layout';
+import AdminLayout from '@/layouts/Layout';
 import { Plus, Search, Edit, Trash2, MoreHorizontal } from 'lucide-react';
 import {
     DropdownMenu,

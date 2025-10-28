@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import { useSidebar } from '@/layouts/admin/admin-layout';
+import { useSidebar } from '@/layouts/Layout';
 import { usePage } from '@inertiajs/react';
 import { 
     ChevronDown, 

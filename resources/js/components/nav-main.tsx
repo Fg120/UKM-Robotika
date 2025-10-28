@@ -1,28 +1,113 @@
-import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
+"use client"
 
-export function NavMain({ items = [] }: { items: NavItem[] }) {
-    const page = usePage();
+import { ChevronRight, type LucideIcon } from "lucide-react"
+import { useState, useEffect } from 'react'
+
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import {
+    SidebarGroup,
+    SidebarGroupLabel,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubButton,
+    SidebarMenuSubItem,
+} from "@/components/ui/sidebar"
+
+export function NavMain({
+    items,
+}: {
+    items: {
+        title: string
+        url: string
+        icon?: LucideIcon
+        items?: {
+            icon?: LucideIcon
+            title: string
+            url: string
+        }[]
+    }[]
+}) {
+    // Current path and helper
+    const path = typeof window !== 'undefined' ? window.location.pathname : ''
+    const extractPath = (url: string) => {
+        try { return new URL(url, window.location.origin).pathname } catch { return url }
+    }
+    // Track active state for each item after mount
+    const [activeKeys, setActiveKeys] = useState<Record<string, boolean>>({})
+    useEffect(() => {
+        const currentPath = window.location.pathname
+        // Helper to extract pathname from a URL or fallback string
+        const extractUrl = (url: string) => {
+            try {
+                return new URL(url, window.location.origin).pathname
+            } catch {
+                return url
+            }
+        }
+        const newActive: Record<string, boolean> = {}
+        items.forEach(item => {
+            const itemPath = extractUrl(item.url)
+            const isActive =
+                currentPath === itemPath || currentPath.startsWith(itemPath + '/') ||
+                !!item.items?.some(child => {
+                    const childPath = extractUrl(child.url)
+                    return currentPath === childPath || currentPath.startsWith(childPath + '/')
+                })
+            newActive[item.title] = isActive
+        })
+        setActiveKeys(newActive)
+    }, [items])
     return (
-        <SidebarGroup className="px-2 py-0">
-            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroup>
+            <SidebarGroupLabel>Menu</SidebarGroupLabel>
             <SidebarMenu>
-                {items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton
-                            asChild
-                            isActive={page.url.startsWith(typeof item.href === 'string' ? item.href : item.href.url)}
-                            tooltip={{ children: item.title }}
-                        >
-                            <Link href={item.href} prefetch>
-                                {item.icon && <item.icon />}
-                                <span>{item.title}</span>
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                ))}
+                {items.map(item => {
+                    const isActive = activeKeys[item.title]
+                    return (
+                    <Collapsible
+                        key={item.title}
+                        asChild
+                        open={isActive}
+                        // Toggle active state on user click
+                        onOpenChange={(open) => setActiveKeys(prev => ({ ...prev, [item.title]: open }))}
+                        className="group/collapsible"
+                    >
+                        <SidebarMenuItem>
+                            <CollapsibleTrigger asChild>
+                                <SidebarMenuButton tooltip={item.title} className="py-4">
+                                    {item.icon && <item.icon />}
+                                    <span className="font-medium">{item.title}</span>
+                                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                </SidebarMenuButton>
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                                <SidebarMenuSub>
+                                    {item.items?.map((subItem) => {
+                                        const subPath = extractPath(subItem.url)
+                                        const isSubActive = path === subPath || path.startsWith(subPath + '/')
+                                        return (
+                                            <SidebarMenuSubItem key={subItem.title}>
+                                                <SidebarMenuSubButton asChild isActive={isSubActive} className="py-4">
+                                                    <a href={subItem.url}>
+                                                        {subItem.icon && <subItem.icon />}
+                                                        <span className="font-medium">{subItem.title}</span>
+                                                    </a>
+                                                </SidebarMenuSubButton>
+                                            </SidebarMenuSubItem>
+                                        )
+                                    })}
+                                </SidebarMenuSub>
+                            </CollapsibleContent>
+                        </SidebarMenuItem>
+                    </Collapsible>
+                )})}
             </SidebarMenu>
         </SidebarGroup>
-    );
+    )
 }
