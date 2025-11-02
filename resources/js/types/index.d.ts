@@ -99,7 +99,31 @@ export interface SubDivisi {
     updated_at: string;
     deleted_at: string | null;
     divisi?: Pick<Divisi, 'id' | 'nama'>;
-}export interface PengurusSocial {
+}
+
+export interface Produk {
+    id: number;
+    nama: string;
+    keterangan: string | null;
+    image: string | null;
+    url: string;
+    aktif: boolean;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+}
+
+export interface Galeri {
+    id: number;
+    judul: string;
+    tanggal: string; // ISO date string
+    image: string | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+}
+
+export interface PengurusSocial {
     id: number;
     pengurus_id: number;
     platform: string;
