@@ -67,7 +67,7 @@ class DashboardController extends Controller
             'tidak_aktif' => Produk::where('aktif', false)->count(),
         ];
 
-        return Inertia::render('admin.dashboard', [
+        return Inertia::render('admin/dashboard', [
             'stats' => [
                 'totalUsers' => $totalUsers,
                 'totalProduk' => $totalProduk,
