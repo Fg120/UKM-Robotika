@@ -94,6 +94,7 @@ const data = {
                     title: "Artikel",
                     url: "#",
                 },
+            ],
         },
         {
             title: "Profil",
