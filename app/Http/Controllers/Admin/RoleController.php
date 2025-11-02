@@ -115,4 +115,21 @@ class RoleController extends Controller
 
         return back()->with('success', 'Role berhasil dihapus');
     }
+
+    public function assignPermissions(Request $request, Role $role)
+    {
+        try {
+            $request->validate([
+                'permissions' => 'array',
+                'permissions.*' => 'exists:permissions,id',
+            ]);
+
+            $permissions = Permission::whereIn('id', $request->input('permissions', []))->get();
+            $role->syncPermissions($permissions);
+
+            return back()->with('success', 'Permissions berhasil diperbarui untuk role');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui permissions: ' . $e->getMessage());
+        }
+    }
 }

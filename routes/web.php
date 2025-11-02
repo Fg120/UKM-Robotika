@@ -40,11 +40,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{role}/delete', [RoleController::class, 'delete'])->middleware('permission:delete roles')->name('delete');
             Route::put('/{role}', [RoleController::class, 'update'])->middleware('permission:edit roles')->name('update');
             Route::delete('/{role}', [RoleController::class, 'destroy'])->middleware('permission:delete roles')->name('destroy');
+            Route::put('/{role}/permissions', [RoleController::class, 'assignPermissions'])->middleware('permission:edit roles')->name('permissions');
         });
 
         // Permission management routes
+        // Permission management routes
         Route::prefix('permissions')->name('permissions.')->group(function () {
             Route::get('/', [PermissionController::class, 'index'])->middleware('permission:view permissions')->name('index');
+            Route::get('/create', [PermissionController::class, 'create'])->middleware('permission:create permissions')->name('create');
+            Route::post('/', [PermissionController::class, 'store'])->middleware('permission:create permissions')->name('store');
+            Route::get('/{permission}', [PermissionController::class, 'show'])->middleware('permission:view permissions')->name('show');
+            Route::get('/{permission}/edit', [PermissionController::class, 'edit'])->middleware('permission:edit permissions')->name('edit');
+            Route::put('/{permission}', [PermissionController::class, 'update'])->middleware('permission:edit permissions')->name('update');
+            Route::delete('/{permission}', [PermissionController::class, 'destroy'])->middleware('permission:delete permissions')->name('destroy');
         });
 
         // Kategori management routes

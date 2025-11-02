@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import { Permission } from '@/types';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { ArrowUpDown, ArrowUp, ArrowDown, X } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Pencil, Trash2, Plus, ArrowUpDown, ArrowUp, ArrowDown, X } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { Card } from '@/components/ui/card';
+import PermissionCreate from './permissionCreate';
+import PermissionEdit from './permissionEdit';
+import PermissionDelete from './permissionDelete';
 
 interface Props {
   permissions: {
@@ -29,18 +25,21 @@ interface Props {
 }
 
 export default function PermissionIndex({ permissions, filters }: Props) {
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [selectedPermission, setSelectedPermission] = useState<Permission | null>(null);
   const [search, setSearch] = useState(filters?.search || '');
   const [sortBy, setSortBy] = useState(filters?.order_by || '');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(filters?.sort_direction || 'asc');
 
-  // Watch for search input changes
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       router.get('/admin/permissions', {
         search: search || undefined,
         order_by: sortBy || undefined,
         sort_direction: sortDirection,
-        page: 1 // Reset to first page when searching
+        page: 1
       }, { preserveState: true });
     }, 500);
 
@@ -72,6 +71,16 @@ export default function PermissionIndex({ permissions, filters }: Props) {
       : <ArrowDown className="ml-2 h-4 w-4" />;
   };
 
+  const handleEdit = (permission: Permission) => {
+    setSelectedPermission(permission);
+    setIsEditOpen(true);
+  };
+
+  const handleDelete = (permission: Permission) => {
+    setSelectedPermission(permission);
+    setIsDeleteOpen(true);
+  };
+
   return (
     <AppLayout>
       <Head title="Manajemen Permission" />
@@ -80,9 +89,13 @@ export default function PermissionIndex({ permissions, filters }: Props) {
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">Manajemen Permission</h1>
+
+            <Button onClick={() => setIsCreateOpen(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Tambah Permission
+            </Button>
           </div>
 
-          {/* Search Form */}
           <div className="mb-6">
             <div className="flex gap-2">
               <Input
@@ -96,7 +109,7 @@ export default function PermissionIndex({ permissions, filters }: Props) {
                   variant="outline"
                   size="sm"
                   onClick={() => setSearch('')}
-                  title="Clear search"
+                  title="Hapus pencarian"
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -104,38 +117,27 @@ export default function PermissionIndex({ permissions, filters }: Props) {
             </div>
           </div>
 
-          {/* Permissions Table */}
           <div className="border rounded-lg">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>
-                    <button
-                      className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-auto p-0"
-                      onClick={() => handleSortChange('id')}
-                    >
-                      ID
-                      {getSortIcon('id')}
-                    </button>
+                    <Button variant="ghost" className="h-auto p-0 font-semibold" onClick={() => handleSortChange('id')}>
+                      ID {getSortIcon('id')}
+                    </Button>
                   </TableHead>
                   <TableHead>
-                    <button
-                      className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-auto p-0"
-                      onClick={() => handleSortChange('name')}
-                    >
-                      Nama Permission
-                      {getSortIcon('name')}
-                    </button>
+                    <Button variant="ghost" className="h-auto p-0 font-semibold" onClick={() => handleSortChange('name')}>
+                      Nama Permission {getSortIcon('name')}
+                    </Button>
                   </TableHead>
+                  <TableHead>Guard</TableHead>
                   <TableHead>
-                    <button
-                      className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-auto p-0"
-                      onClick={() => handleSortChange('created_at')}
-                    >
-                      Dibuat
-                      {getSortIcon('created_at')}
-                    </button>
+                    <Button variant="ghost" className="h-auto p-0 font-semibold" onClick={() => handleSortChange('created_at')}>
+                      Dibuat {getSortIcon('created_at')}
+                    </Button>
                   </TableHead>
+                  <TableHead className="text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -143,14 +145,24 @@ export default function PermissionIndex({ permissions, filters }: Props) {
                   <TableRow key={permission.id}>
                     <TableCell>{permission.id}</TableCell>
                     <TableCell className="font-medium">{permission.name}</TableCell>
+                    <TableCell>{permission.guard_name}</TableCell>
                     <TableCell>{new Date(permission.created_at).toLocaleDateString('id-ID')}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button variant="outline" size="sm" onClick={() => handleEdit(permission)}>
+                          <Pencil className="w-4 h-4" />
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={() => handleDelete(permission)}>
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </div>
 
-          {/* Pagination */}
           {permissions.meta && permissions.meta.last_page > 1 && (
             <div className="flex justify-center mt-6">
               <div className="flex gap-2">
@@ -171,6 +183,22 @@ export default function PermissionIndex({ permissions, filters }: Props) {
                 ))}
               </div>
             </div>
+          )}
+
+          <PermissionCreate isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
+          {selectedPermission && (
+            <PermissionEdit
+              isOpen={isEditOpen}
+              onClose={() => { setIsEditOpen(false); setSelectedPermission(null); }}
+              permissionId={selectedPermission.id}
+            />
+          )}
+          {selectedPermission && (
+            <PermissionDelete
+              isOpen={isDeleteOpen}
+              onClose={() => { setIsDeleteOpen(false); setSelectedPermission(null); }}
+              permissionId={selectedPermission.id}
+            />
           )}
         </div>
       </Card>

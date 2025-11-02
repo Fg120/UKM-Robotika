@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Head, router } from '@inertiajs/react';
 import { Role, Permission } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import { Pencil, Trash2, Plus, ArrowUpDown, ArrowUp, ArrowDown, X } from 'lucide
 import RoleCreate from './roleCreate';
 import RoleEdit from './roleEdit';
 import RoleDelete from './roleDelete';
+import RoleAssignPermissions from './roleAssignPermissions';
 import AppLayout from '@/layouts/app-layout';
 import { Card } from '@/components/ui/card';
 
@@ -35,6 +36,7 @@ export default function RoleIndex({ roles, filters }: Props) {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isAssignOpen, setIsAssignOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [search, setSearch] = useState(filters?.search || '');
   const [sortBy, setSortBy] = useState(filters?.order_by || '');
@@ -196,6 +198,12 @@ export default function RoleIndex({ roles, filters }: Props) {
                           onClick={() => handleEdit(role)}
                         >
                           <Pencil className="w-4 h-4" />
+                        </Button>                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => { setSelectedRole(role); setIsAssignOpen(true); }}
+                        >
+                          Permissions
                         </Button>
                         <Button
                           variant="outline"
@@ -262,6 +270,8 @@ export default function RoleIndex({ roles, filters }: Props) {
               roleId={selectedRole.id}
             />
           )}
+
+          {selectedRole && (<RoleAssignPermissions isOpen={isAssignOpen} onClose={() => { setIsAssignOpen(false); setSelectedRole(null); }} roleId={selectedRole.id} />)}
         </div>
       </Card>
     </AppLayout>
