@@ -5,10 +5,13 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\DivisiController;
+use App\Http\Controllers\Admin\PengurusController;
+use App\Http\Controllers\Admin\SubDivisiController;
+use App\Http\Controllers\Admin\GaleriController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
@@ -55,6 +58,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{permission}', [PermissionController::class, 'destroy'])->middleware('permission:delete permissions')->name('destroy');
         });
 
+        
+        // Produk management routes
+        Route::prefix('produks')->name('produks.')->group(function () {
+            Route::get('/', [ProdukController::class, 'index'])->middleware('permission:view produk')->name('index');
+            Route::post('/', [ProdukController::class, 'store'])->middleware('permission:create produk')->name('store');
+            Route::get('/{produk}', [ProdukController::class, 'show'])->middleware('permission:view produk')->name('show');
+            Route::get('/{produk}/edit', [ProdukController::class, 'edit'])->middleware('permission:edit produk')->name('edit');
+            Route::put('/{produk}', [ProdukController::class, 'update'])->middleware('permission:edit produk')->name('update');
+            Route::delete('/{produk}', [ProdukController::class, 'destroy'])->middleware('permission:delete produk')->name('destroy');
+        });
         // Kategori management routes
         Route::prefix('kategoris')->name('kategoris.')->group(function () {
             Route::get('/', [KategoriController::class, 'index'])->middleware('permission:view kategori')->name('index');
@@ -67,7 +80,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{id}/restore', [KategoriController::class, 'restore'])->middleware('permission:delete kategori')->name('restore');
         });
 
-        // Tag management routes
+
+
+        // Pengurus management routes
+        Route::prefix('pengurus')->name('pengurus.')->group(function () {
+            Route::get('/', [PengurusController::class, 'index'])->middleware('permission:view pengurus')->name('index');
+            Route::post('/', [PengurusController::class, 'store'])->middleware('permission:create pengurus')->name('store');
+            Route::get('/{penguru}', [PengurusController::class, 'show'])->middleware('permission:view pengurus')->name('show');
+            Route::get('/{penguru}/edit', [PengurusController::class, 'edit'])->middleware('permission:edit pengurus')->name('edit');
+            Route::put('/{penguru}', [PengurusController::class, 'update'])->middleware('permission:edit pengurus')->name('update');
+            Route::delete('/{penguru}', [PengurusController::class, 'destroy'])->middleware('permission:delete pengurus')->name('destroy');
+        });
         // Divisi management routes
         Route::prefix('divisis')->name('divisis.')->group(function () {
             Route::get('/', [DivisiController::class, 'index'])->middleware('permission:view divisi')->name('index');
@@ -91,6 +114,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{subdivisi}', [SubDivisiController::class, 'destroy'])->middleware('permission:delete sub divisi')->name('destroy');
             Route::put('/{id}/restore', [SubDivisiController::class, 'restore'])->middleware('permission:delete sub divisi')->name('restore');
         });
+        // Galeri management routes
+        Route::prefix('galeris')->name('galeris.')->group(function () {
+            Route::get('/', [GaleriController::class, 'index'])->middleware('permission:view galeri')->name('index');
+            Route::post('/', [GaleriController::class, 'store'])->middleware('permission:create galeri')->name('store');
+            Route::get('/{galeri}', [GaleriController::class, 'show'])->middleware('permission:view galeri')->name('show');
+            Route::get('/{galeri}/edit', [GaleriController::class, 'edit'])->middleware('permission:edit galeri')->name('edit');
+            Route::put('/{galeri}', [GaleriController::class, 'update'])->middleware('permission:edit galeri')->name('update');
+            Route::delete('/{galeri}', [GaleriController::class, 'destroy'])->middleware('permission:delete galeri')->name('destroy');
+        });        // Tag management routes
         Route::prefix('tags')->name('tags.')->group(function () {
             Route::get('/', [TagController::class, 'index'])->middleware('permission:view tag')->name('index');
             Route::post('/', [TagController::class, 'store'])->middleware('permission:create tag')->name('store');

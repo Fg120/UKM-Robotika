@@ -90,9 +90,19 @@ const data = {
                     url: route('admin.tags.index'),
                 },
                 {
+                    icon: Folder,
+                    title: "Produk",
+                    url: route('admin.produks.index'),
+                },
+                {
                     icon: Newspaper,
                     title: "Artikel",
                     url: "#",
+                },
+                {
+                    icon: Play,
+                    title: "Galeri",
+                    url: route('admin.galeris.index'),
                 },
             ],
         },
@@ -111,6 +121,10 @@ const data = {
                     title: "Sub Divisi",
                     url: route('admin.subdivisis.index'),
                 },
+                {
+                    icon: Users,
+                    title: "Pengurus",
+                    url: route('admin.pengurus.index'),
                 },
             ],
         },
