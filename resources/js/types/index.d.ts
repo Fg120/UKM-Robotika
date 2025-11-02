@@ -1,4 +1,4 @@
-import { InertiaLinkProps } from '@inertiajs/react';
+﻿import { InertiaLinkProps } from '@inertiajs/react';
 import { LucideIcon } from 'lucide-react';
 
 export interface Auth {
@@ -77,4 +77,49 @@ export interface Tag {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
+}
+export interface Divisi {
+    id: number;
+    nama: string;
+    deskripsi: string | null;
+    image: string | null;
+    urutan: number | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+}
+
+export interface SubDivisi {
+    id: number;
+    divisi_id: number;
+    nama: string;
+    deskripsi: string | null;
+    image: string | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    divisi?: Pick<Divisi, 'id' | 'nama'>;
+}export interface PengurusSocial {
+    id: number;
+    pengurus_id: number;
+    platform: string;
+    icon: string;
+    url: string;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface Pengurus {
+    id: number;
+    nama: string;
+    image: string | null;
+    posisi: 'Kepala' | 'Anggota';
+    divisi_id: number;
+    sub_divisi_id: number | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    divisi?: Pick<Divisi, 'id' | 'nama'>;
+    subDivisi?: { id: number; nama: string } | null;
+    sosmeds?: PengurusSocial[];
 }

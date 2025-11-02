@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\DivisiController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -59,6 +60,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         // Tag management routes
+        // Divisi management routes
+        Route::prefix('divisis')->name('divisis.')->group(function () {
+            Route::get('/', [DivisiController::class, 'index'])->middleware('permission:view divisi')->name('index');
+            Route::get('/create', [DivisiController::class, 'create'])->middleware('permission:create divisi')->name('create');
+            Route::post('/', [DivisiController::class, 'store'])->middleware('permission:create divisi')->name('store');
+            Route::get('/{divisi}', [DivisiController::class, 'show'])->middleware('permission:view divisi')->name('show');
+            Route::get('/{divisi}/edit', [DivisiController::class, 'edit'])->middleware('permission:edit divisi')->name('edit');
+            Route::put('/{divisi}', [DivisiController::class, 'update'])->middleware('permission:edit divisi')->name('update');
+            Route::delete('/{divisi}', [DivisiController::class, 'destroy'])->middleware('permission:delete divisi')->name('destroy');
+            Route::put('/{id}/restore', [DivisiController::class, 'restore'])->middleware('permission:delete divisi')->name('restore');
+        });
         Route::prefix('tags')->name('tags.')->group(function () {
             Route::get('/', [TagController::class, 'index'])->middleware('permission:view tag')->name('index');
             Route::post('/', [TagController::class, 'store'])->middleware('permission:create tag')->name('store');

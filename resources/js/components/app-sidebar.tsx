@@ -93,6 +93,17 @@ const data = {
                     title: "Artikel",
                     url: "#",
                 },
+        {
+            title: "Profil",
+            url: "#",
+            icon: Info,
+            items: [
+                {
+                    icon: Folder,
+                    title: "Divisi",
+                    url: route('admin.divisis.index'),
+                },
+                },
             ],
         },
     ],
