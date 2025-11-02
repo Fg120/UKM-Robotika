@@ -2,103 +2,94 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import AppLayout from '@/layouts/app-layout';
-import { BarChart3, Users, ShoppingCart, TrendingUp, Activity, Eye, Download } from 'lucide-react';
+import { BarChart3, Users, ShoppingCart, TrendingUp, Activity, Eye, Download, Package, Layers } from 'lucide-react';
+import { Head } from '@inertiajs/react';
 
-const stats = [
-    {
-        title: 'Total Users',
-        value: '12,345',
-        change: '+12%',
-        changeType: 'positive' as const,
-        icon: Users,
-    },
-    {
-        title: 'Total Orders',
-        value: '8,492',
-        change: '+8%',
-        changeType: 'positive' as const,
-        icon: ShoppingCart,
-    },
-    {
-        title: 'Revenue',
-        value: '$45,231',
-        change: '-3%',
-        changeType: 'negative' as const,
-        icon: TrendingUp,
-    },
-    {
-        title: 'Active Sessions',
-        value: '2,341',
-        change: '+15%',
-        changeType: 'positive' as const,
-        icon: Activity,
-    },
-];
+interface DashboardProps {
+    stats: {
+        totalUsers: number;
+        totalProduk: number;
+        totalDivisi: number;
+        totalPengurus: number;
+        totalGaleri: number;
+        totalKategori: number;
+        aktiveProduk: number;
+        aktiveDivisi: number;
+    };
+    recentData: {
+        produk: any[];
+        users: any[];
+        galeri: any[];
+        pengurus: any[];
+    };
+    divisiStats: any[];
+    userGrowth: Record<string, number>;
+    productStatus: {
+        aktif: number;
+        tidak_aktif: number;
+    };
+}
 
-const recentActivities = [
-    {
-        user: 'John Doe',
-        action: 'Created new account',
-        time: '2 minutes ago',
-        type: 'user',
-    },
-    {
-        user: 'Jane Smith',
-        action: 'Made a purchase',
-        time: '5 minutes ago',
-        type: 'order',
-    },
-    {
-        user: 'Bob Johnson',
-        action: 'Updated profile',
-        time: '10 minutes ago',
-        type: 'profile',
-    },
-    {
-        user: 'Alice Brown',
-        action: 'Logged out',
-        time: '15 minutes ago',
-        type: 'auth',
-    },
-];
-
-export default function AdminDashboard() {
+export default function AdminDashboard({
+    stats,
+    recentData,
+    divisiStats,
+    userGrowth,
+    productStatus,
+}: DashboardProps) {
     const breadcrumbs = [
         { label: 'Dashboard', href: '/admin' },
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs} title="Dashboard">
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Dashboard Admin" />
             <div className="space-y-6">
                 {/* Stats Grid */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    {stats.map((stat) => {
-                        const Icon = stat.icon;
-                        return (
-                            <Card key={stat.title}>
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">
-                                        {stat.title}
-                                    </CardTitle>
-                                    <Icon className="h-4 w-4 text-muted-foreground" />
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">{stat.value}</div>
-                                    <div className="flex items-center space-x-2">
-                                        <Badge
-                                            variant={stat.changeType === 'positive' ? 'default' : 'destructive'}
-                                            className="text-xs"
-                                        >
-                                            {stat.change}
-                                        </Badge>
-                                        <p className="text-xs text-muted-foreground">
-                                            from last month
-                                        </p>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        );
-                    })}
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                            <Users className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{stats.totalUsers}</div>
+                            <p className="text-xs text-muted-foreground">Pengguna terdaftar</p>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">Total Produk</CardTitle>
+                            <Package className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{stats.totalProduk}</div>
+                            <p className="text-xs text-muted-foreground">{stats.aktiveProduk} aktif</p>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">Total Divisi</CardTitle>
+                            <Layers className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{stats.totalDivisi}</div>
+                            <p className="text-xs text-muted-foreground">Divisi organisasi</p>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">Total Pengurus</CardTitle>
+                            <Activity className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{stats.totalPengurus}</div>
+                            <p className="text-xs text-muted-foreground">Anggota pengurus</p>
+                        </CardContent>
+                    </Card>
                 </div>
 
                 {/* Charts and Activities */}
@@ -141,32 +132,36 @@ export default function AdminDashboard() {
                     {/* Recent Activities */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Recent Activities</CardTitle>
+                            <CardTitle>Recent Users</CardTitle>
                             <CardDescription>
-                                Latest user activities in your system
+                                5 user terakhir yang terdaftar
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            {recentActivities.map((activity, index) => (
-                                <div key={index} className="flex items-start space-x-3">
-                                    <div className="flex-shrink-0">
-                                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                                            <span className="text-xs font-medium text-primary">
-                                                {activity.user.charAt(0)}
-                                            </span>
+                            {recentData.users.length > 0 ? (
+                                recentData.users.map((user: any) => (
+                                    <div key={user.id} className="flex items-start space-x-3">
+                                        <div className="flex-shrink-0">
+                                            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                                <span className="text-xs font-medium text-primary">
+                                                    {user.name.charAt(0)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="flex-1 space-y-1">
+                                            <p className="text-sm font-medium">{user.name}</p>
+                                            <p className="text-sm text-muted-foreground">
+                                                {user.email}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {new Date(user.created_at).toLocaleDateString('id-ID')}
+                                            </p>
                                         </div>
                                     </div>
-                                    <div className="flex-1 space-y-1">
-                                        <p className="text-sm font-medium">{activity.user}</p>
-                                        <p className="text-sm text-muted-foreground">
-                                            {activity.action}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {activity.time}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
+                                ))
+                            ) : (
+                                <p className="text-sm text-muted-foreground">Belum ada user</p>
+                            )}
                         </CardContent>
                     </Card>
                 </div>

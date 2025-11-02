@@ -10,16 +10,16 @@ use App\Http\Controllers\Admin\DivisiController;
 use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\SubDivisiController;
 use App\Http\Controllers\Admin\GaleriController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
         Route::prefix('users')->name('users.')->group(function () {
@@ -58,7 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{permission}', [PermissionController::class, 'destroy'])->middleware('permission:delete permissions')->name('destroy');
         });
 
-        
+
         // Produk management routes
         Route::prefix('produks')->name('produks.')->group(function () {
             Route::get('/', [ProdukController::class, 'index'])->middleware('permission:view produk')->name('index');

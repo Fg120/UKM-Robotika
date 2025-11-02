@@ -21,4 +21,9 @@ class SubDivisi extends Model
     {
         return $this->belongsTo(Divisi::class);
     }
+
+    public function pengurus()
+    {
+        return $this->hasMany(Pengurus::class, 'sub_divisi_id');
+    }
 }
