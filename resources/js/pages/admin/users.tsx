@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import AdminLayout from '@/layouts/Layout';
+import AppLayout from '@/layouts/app-layout';
 import { Plus, Search, Edit, Trash2, MoreHorizontal } from 'lucide-react';
 import {
     DropdownMenu,
@@ -47,7 +47,7 @@ export default function UsersIndex() {
     ];
 
     return (
-        <AdminLayout breadcrumbs={breadcrumbs} title="Users Management">
+        <AppLayout breadcrumbs={breadcrumbs} title="Users Management">
             <div className="space-y-6">
                 {/* Header */}
                 <div className="flex justify-between items-center">
@@ -150,6 +150,6 @@ export default function UsersIndex() {
                     </CardContent>
                 </Card>
             </div>
-        </AdminLayout>
+        </AppLayout>
     );
 }

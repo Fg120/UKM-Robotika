@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import AdminLayout from '@/layouts/Layout';
+import AppLayout from '@/layouts/app-layout';
 import { BarChart3, Users, ShoppingCart, TrendingUp, Activity, Eye, Download } from 'lucide-react';
 
 const stats = [
@@ -64,11 +64,11 @@ const recentActivities = [
 
 export default function AdminDashboard() {
     const breadcrumbs = [
-        { title: 'Dashboard', href: '/admin' },
+        { label: 'Dashboard', href: '/admin' },
     ];
 
     return (
-        <AdminLayout breadcrumbs={breadcrumbs} title="Dashboard">
+        <AppLayout breadcrumbs={breadcrumbs} title="Dashboard">
             <div className="space-y-6">
                 {/* Stats Grid */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
                                 <CardContent>
                                     <div className="text-2xl font-bold">{stat.value}</div>
                                     <div className="flex items-center space-x-2">
-                                        <Badge 
+                                        <Badge
                                             variant={stat.changeType === 'positive' ? 'default' : 'destructive'}
                                             className="text-xs"
                                         >
@@ -190,6 +190,6 @@ export default function AdminDashboard() {
                     </CardContent>
                 </Card>
             </div>
-        </AdminLayout>
+        </AppLayout>
     );
 }
