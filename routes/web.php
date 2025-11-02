@@ -79,6 +79,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{divisi}', [DivisiController::class, 'destroy'])->middleware('permission:delete divisi')->name('destroy');
             Route::put('/{id}/restore', [DivisiController::class, 'restore'])->middleware('permission:delete divisi')->name('restore');
         });
+
+        // Sub Divisi management routes
+        Route::prefix('subdivisis')->name('subdivisis.')->group(function () {
+            Route::get('/', [SubDivisiController::class, 'index'])->middleware('permission:view sub divisi')->name('index');
+            Route::get('/create', [SubDivisiController::class, 'create'])->middleware('permission:create sub divisi')->name('create');
+            Route::post('/', [SubDivisiController::class, 'store'])->middleware('permission:create sub divisi')->name('store');
+            Route::get('/{subdivisi}', [SubDivisiController::class, 'show'])->middleware('permission:view sub divisi')->name('show');
+            Route::get('/{subdivisi}/edit', [SubDivisiController::class, 'edit'])->middleware('permission:edit sub divisi')->name('edit');
+            Route::put('/{subdivisi}', [SubDivisiController::class, 'update'])->middleware('permission:edit sub divisi')->name('update');
+            Route::delete('/{subdivisi}', [SubDivisiController::class, 'destroy'])->middleware('permission:delete sub divisi')->name('destroy');
+            Route::put('/{id}/restore', [SubDivisiController::class, 'restore'])->middleware('permission:delete sub divisi')->name('restore');
+        });
         Route::prefix('tags')->name('tags.')->group(function () {
             Route::get('/', [TagController::class, 'index'])->middleware('permission:view tag')->name('index');
             Route::post('/', [TagController::class, 'store'])->middleware('permission:create tag')->name('store');

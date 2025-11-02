@@ -27,6 +27,7 @@ import {
     Users,
     CreditCard,
     BarChart3,
+    FolderTree,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -102,6 +103,11 @@ const data = {
                     icon: Folder,
                     title: "Divisi",
                     url: route('admin.divisis.index'),
+                },
+                {
+                    icon: FolderTree,
+                    title: "Sub Divisi",
+                    url: route('admin.subdivisis.index'),
                 },
                 },
             ],
