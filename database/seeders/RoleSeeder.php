@@ -38,10 +38,35 @@ class RoleSeeder extends Seeder
             'edit tag',
             'delete tag',
 
+            'view galeri',
+            'create galeri',
+            'edit galeri',
+            'delete galeri',
+
             'view kategori',
             'create kategori',
             'edit kategori',
             'delete kategori',
+
+            'view produk',
+            'create produk',
+            'edit produk',
+            'delete produk',
+
+            'view divisi',
+            'create divisi',
+            'edit divisi',
+            'delete divisi',
+
+            'view sub divisi',
+            'create sub divisi',
+            'edit sub divisi',
+            'delete sub divisi',
+
+            'view pengurus',
+            'create pengurus',
+            'edit pengurus',
+            'delete pengurus',
 
             'view dashboard',
             'view profile',
