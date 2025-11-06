@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bidang;
 use App\Models\Pengurus;
 use App\Models\PengurusSosmed;
+use App\Models\Posisi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,7 +15,7 @@ class PengurusController extends Controller
     public function index(Request $request)
     {
         try {
-            $pengurus = Pengurus::with(['bidang', 'sosmeds']);
+            $pengurus = Pengurus::with(['bidang', 'posisi', 'sosmeds']);
 
             if ($request->filled('search')) {
                 $search = $request->string('search');
@@ -35,6 +36,7 @@ class PengurusController extends Controller
             return Inertia::render('admin/pengurus/pengurusIndex', [
                 'penguruses' => $pengurus->paginate(10)->withQueryString(),
                 'bidangs' => Bidang::select('id', 'nama')->orderBy('nama')->get(),
+                'posisis' => Posisi::select('id', 'nama')->orderBy('urutan')->get(),
                 'filters' => $request->only(['search', 'bidang_id', 'order_by', 'sort_direction']),
             ]);
         } catch (\Exception $e) {
@@ -47,7 +49,7 @@ class PengurusController extends Controller
         try {
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',
-                'posisi' => 'required|in:Kepala,Anggota',
+                'posisi_id' => 'required|exists:posisis,id',
                 'bidang_id' => 'required|exists:bidangs,id',
                 'image' => 'nullable|image|max:4096',
                 'sosmeds' => 'array',
@@ -63,7 +65,7 @@ class PengurusController extends Controller
 
             $pengurus = Pengurus::create([
                 'nama' => $validated['nama'],
-                'posisi' => $validated['posisi'],
+                'posisi_id' => $validated['posisi_id'],
                 'bidang_id' => $validated['bidang_id'],
                 'image' => $imagePath,
             ]);
@@ -80,15 +82,17 @@ class PengurusController extends Controller
 
     public function show(Pengurus $pengurus)
     {
-        return response()->json(['pengurus' => $pengurus->load(['bidang', 'sosmeds'])]);
+        return response()->json(['pengurus' => $pengurus->load(['bidang', 'posisi', 'sosmeds'])]);
     }
 
     public function edit(Pengurus $pengurus)
     {
         $bidangs = Bidang::select('id', 'nama')->orderBy('nama')->get();
+        $posisis = Posisi::select('id', 'nama')->orderBy('urutan')->get();
         return response()->json([
             'pengurus' => $pengurus->load('sosmeds'),
             'bidangs' => $bidangs,
+            'posisis' => $posisis,
         ]);
     }
 
@@ -97,7 +101,7 @@ class PengurusController extends Controller
         try {
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',
-                'posisi' => 'required|in:Kepala,Anggota',
+                'posisi_id' => 'required|exists:posisis,id',
                 'bidang_id' => 'required|exists:bidangs,id',
                 'image' => 'nullable|image|max:4096',
                 'sosmeds' => 'array',
@@ -108,7 +112,7 @@ class PengurusController extends Controller
 
             $data = [
                 'nama' => $validated['nama'],
-                'posisi' => $validated['posisi'],
+                'posisi_id' => $validated['posisi_id'],
                 'bidang_id' => $validated['bidang_id'],
             ];
 

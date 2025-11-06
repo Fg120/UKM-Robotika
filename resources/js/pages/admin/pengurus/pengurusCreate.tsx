@@ -22,11 +22,12 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   bidangs: { id: number; nama: string }[];
+  posisis: { id: number; nama: string }[];
   selectedBidang: string;
 }
 
-export default function PengurusCreate({ isOpen, onClose, bidangs, selectedBidang }: Props) {
-  const [formData, setFormData] = useState<{ nama: string; posisi: 'Kepala' | 'Anggota' | ''; bidang_id: string; image: File | null; sosmeds: { platform: string; icon: string; url: string }[] }>({ nama: '', posisi: '', bidang_id: selectedBidang && selectedBidang !== 'all' ? selectedBidang : '', image: null, sosmeds: [] });
+export default function PengurusCreate({ isOpen, onClose, bidangs, posisis, selectedBidang }: Props) {
+  const [formData, setFormData] = useState<{ nama: string; posisi_id: string; bidang_id: string; image: File | null; sosmeds: { platform: string; icon: string; url: string }[] }>({ nama: '', posisi_id: '', bidang_id: selectedBidang && selectedBidang !== 'all' ? selectedBidang : '', image: null, sosmeds: [] });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,11 +44,11 @@ export default function PengurusCreate({ isOpen, onClose, bidangs, selectedBidan
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setIsLoading(true); setErrors({});
-    const payload: any = { nama: formData.nama, posisi: formData.posisi, bidang_id: formData.bidang_id };
+    const payload: any = { nama: formData.nama, posisi_id: formData.posisi_id, bidang_id: formData.bidang_id };
     if (formData.image) payload.image = formData.image;
     if (formData.sosmeds.length) payload.sosmeds = formData.sosmeds.filter(s => s.platform && s.url);
     try {
-      await router.post('/admin/pengurus', { ...payload }, { forceFormData: true, onSuccess: () => { setFormData({ nama: '', posisi: '', bidang_id: selectedBidang !== 'all' ? selectedBidang : '', image: null, sosmeds: [] }); onClose(); }, onError: (e) => setErrors(e as any), onFinish: () => setIsLoading(false) });
+      await router.post('/admin/pengurus', { ...payload }, { forceFormData: true, onSuccess: () => { setFormData({ nama: '', posisi_id: '', bidang_id: selectedBidang !== 'all' ? selectedBidang : '', image: null, sosmeds: [] }); onClose(); }, onError: (e) => setErrors(e as any), onFinish: () => setIsLoading(false) });
     } catch { setIsLoading(false); }
   };
 
@@ -73,14 +74,13 @@ export default function PengurusCreate({ isOpen, onClose, bidangs, selectedBidan
           <div className="grid grid-cols-4 items-center gap-3">
             <Label className="text-right">Posisi</Label>
             <div className="col-span-3">
-              <Select value={formData.posisi} onValueChange={(v) => setFormData({ ...formData, posisi: v as any })}>
+              <Select value={formData.posisi_id} onValueChange={(v) => setFormData({ ...formData, posisi_id: v })}>
                 <SelectTrigger><SelectValue placeholder="Pilih posisi" /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Kepala">Kepala</SelectItem>
-                  <SelectItem value="Anggota">Anggota</SelectItem>
+                  {posisis.map(p => (<SelectItem key={p.id} value={String(p.id)}>{p.nama}</SelectItem>))}
                 </SelectContent>
               </Select>
-              {errors.posisi && <p className="text-sm text-red-500 mt-1">{errors.posisi}</p>}
+              {errors.posisi_id && <p className="text-sm text-red-500 mt-1">{errors.posisi_id}</p>}
             </div>
           </div>
 

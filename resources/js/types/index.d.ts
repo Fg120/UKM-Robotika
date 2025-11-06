@@ -125,12 +125,13 @@ export interface Pengurus {
     id: number;
     nama: string;
     image: string | null;
-    posisi: 'Kepala' | 'Anggota';
+    posisi_id: number;
     bidang_id: number;
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
     bidang?: Pick<Bidang, 'id' | 'nama'>;
+    posisi?: Pick<Posisi, 'id' | 'nama'>;
     sosmeds?: PengurusSocial[];
 }
 

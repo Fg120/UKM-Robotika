@@ -137,15 +137,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <a href="#">
-                                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                                    <GalleryVerticalEnd className="size-4" />
-                                </div>
-                                <div className="flex flex-col gap-0.5 leading-none">
-                                    <span className="font-medium">Documentation</span>
-                                    <span className="">v1.0.0</span>
-                                </div>
+                        <SidebarMenuButton size="lg" asChild className="bg-white hover:bg-white active:bg-white">
+                            <a href={route('dashboard')} className="px-8">
+                                {/* from public */}
+                                <img src="/asset/logo-panjang.png" alt="Logo Robotika" />
                             </a>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -158,6 +153,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <NavUser user={data.user} />
             </SidebarFooter>
             <SidebarRail />
-        </Sidebar>
+        </Sidebar >
     )
 }

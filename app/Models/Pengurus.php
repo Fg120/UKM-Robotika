@@ -15,9 +15,14 @@ class Pengurus extends Model
     protected $fillable = [
         'nama',
         'image',
-        'posisi',
+        'posisi_id',
         'bidang_id',
     ];
+
+    public function posisi()
+    {
+        return $this->belongsTo(Posisi::class);
+    }
 
     public function bidang()
     {

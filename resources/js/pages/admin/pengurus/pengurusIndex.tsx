@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Head, router } from '@inertiajs/react';
-import { Bidang } from '@/types';
+import { Bidang, Posisi } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -17,9 +17,10 @@ interface Pengurus {
   id: number;
   nama: string;
   image: string | null;
-  posisi: 'Kepala' | 'Anggota';
+  posisi_id: number;
   bidang_id: number;
   bidang?: Pick<Bidang, 'id' | 'nama'>;
+  posisi?: Pick<Posisi, 'id' | 'nama'>;
   sosmeds?: Sosmed[];
   created_at: string;
 }
@@ -27,10 +28,11 @@ interface Pengurus {
 interface Props {
   penguruses: { data: Pengurus[]; links: any[]; meta: any };
   bidangs: Pick<Bidang, 'id' | 'nama'>[];
+  posisis: Pick<Posisi, 'id' | 'nama'>[];
   filters?: { search?: string; bidang_id?: string; order_by?: string; sort_direction?: 'asc' | 'desc' };
 }
 
-export default function PengurusIndex({ penguruses, bidangs, filters }: Props) {
+export default function PengurusIndex({ penguruses, bidangs, posisis, filters }: Props) {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -74,9 +76,9 @@ export default function PengurusIndex({ penguruses, bidangs, filters }: Props) {
     <div className="w-64 border-r pr-4">
       <div className="font-semibold mb-2">Bidang</div>
       <nav className="flex flex-col gap-1">
-        <button className={`text-left px-3 py-2 rounded ${selectedBidang === 'all' ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedBidang('all')}>Semua Pengurus</button>
+        <button className={`text-left px-3 py-2 rounded ${selectedBidang === 'all' ? 'bg-[#00c951] text-white' : 'hover:bg-[#00c951]'}`} onClick={() => setSelectedBidang('all')}>Semua Pengurus</button>
         {bidangs.map(d => (
-          <button key={d.id} className={`text-left px-3 py-2 rounded ${String(d.id) === selectedBidang ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedBidang(String(d.id))}>{d.nama}</button>
+          <button key={d.id} className={`text-left px-3 py-2 rounded ${String(d.id) === selectedBidang ? 'bg-[#00c951] text-white' : 'hover:bg-[#00c951]'}`} onClick={() => setSelectedBidang(String(d.id))}>{d.nama}</button>
         ))}
       </nav>
     </div>
@@ -92,7 +94,7 @@ export default function PengurusIndex({ penguruses, bidangs, filters }: Props) {
             <Sidebar />
             <div className="flex-1 pl-6">
               <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold">{selectedBidang === 'all' ? 'Semua Pengurus' : 'Pengurus Bidang'}</h1>
+                <h1 className="text-2xl font-bold">{selectedBidang === 'all' ? 'Semua Pengurus' : 'Pengurus Bidang ' + bidangs.find(b => b.id === Number(selectedBidang))?.nama}</h1>
                 {showCUD && (
                   <Button onClick={() => setIsCreateOpen(true)}>
                     <Plus className="w-4 h-4 mr-2" />Tambah Pengurus
@@ -120,7 +122,7 @@ export default function PengurusIndex({ penguruses, bidangs, filters }: Props) {
                         <TableCell>{p.id}</TableCell>
                         <TableCell>{p.image ? (<img src={`/storage/${p.image}`} alt={p.nama} className="h-10 w-10 rounded object-cover border" />) : (<div className="h-10 w-10 rounded border flex items-center justify-center text-gray-400"><ImageIcon className="h-5 w-5" /></div>)}</TableCell>
                         <TableCell className="font-medium">{p.nama}</TableCell>
-                        <TableCell>{p.posisi}</TableCell>
+                        <TableCell>{p.posisi?.nama ?? '-'}</TableCell>
                         <TableCell>{p.bidang?.nama ?? '-'}</TableCell>
                         <TableCell>
                           <div className="flex gap-2">
@@ -155,7 +157,7 @@ export default function PengurusIndex({ penguruses, bidangs, filters }: Props) {
                 </div>
               )}
 
-              <PengurusCreate isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} bidangs={bidangs} selectedBidang={selectedBidang} />
+              <PengurusCreate isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} bidangs={bidangs} posisis={posisis} selectedBidang={selectedBidang} />
               {selectedPengurus && (
                 <PengurusEdit isOpen={isEditOpen} onClose={() => { setIsEditOpen(false); setSelectedPengurus(null); }} pengurusId={selectedPengurus.id} />
               )}

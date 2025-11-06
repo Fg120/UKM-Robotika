@@ -45,10 +45,10 @@ export default function Welcome() {
                     <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl px-8 py-4 shadow-2xl">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-4">
-                                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                                    <span className="text-white font-bold text-lg">R</span>
+                                <div className="h-10 flex items-center justify-center rounded-xl shadow-lg overflow-hidden px-2 bg-white rounded-xl">
+                                    <img src="/asset/logo-panjang.png" alt="Logo Robotika" className="h-full w-auto object-contain" />
                                 </div>
-                                <span className="text-white font-bold text-xl">UKM Robotika</span>
+                                {/* <span className="text-white font-bold text-xl">UKM Robotika</span> */}
                             </div>
                             <div className="hidden md:flex items-center space-x-8">
                                 <a href="#home" className="text-gray-300 hover:text-white transition-colors font-medium">Home</a>
