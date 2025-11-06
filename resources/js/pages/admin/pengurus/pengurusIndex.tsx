@@ -20,8 +20,8 @@ interface Pengurus {
   posisi: 'Kepala' | 'Anggota';
   divisi_id: number;
   sub_divisi_id?: number | null;
-  divisi?: Pick<Divisi, 'id'|'nama'>;
-  subDivisi?: { id:number; nama:string } | null;
+  divisi?: Pick<Divisi, 'id' | 'nama'>;
+  subDivisi?: { id: number; nama: string } | null;
   sosmeds?: Sosmed[];
   created_at: string;
 }
@@ -29,8 +29,8 @@ interface Pengurus {
 interface Props {
   penguruses: { data: Pengurus[]; links: any[]; meta: any };
   divisis: Pick<Divisi, 'id' | 'nama'>[];
-  subDivisis: { id:number; nama:string }[];
-  filters?: { search?: string; divisi_id?: string; sub_divisi_id?: string; order_by?: string; sort_direction?: 'asc'|'desc' };
+  subDivisis: { id: number; nama: string }[];
+  filters?: { search?: string; divisi_id?: string; sub_divisi_id?: string; order_by?: string; sort_direction?: 'asc' | 'desc' };
 }
 
 export default function PengurusIndex({ penguruses, divisis, subDivisis, filters }: Props) {
@@ -42,7 +42,7 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
   const [selectedDivisi, setSelectedDivisi] = useState<string>(filters?.divisi_id || 'all');
   const [selectedSubDivisi, setSelectedSubDivisi] = useState<string>(filters?.sub_divisi_id || 'all');
   const [sortBy, setSortBy] = useState(filters?.order_by || '');
-  const [sortDirection, setSortDirection] = useState<'asc'|'desc'>(filters?.sort_direction || 'asc');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(filters?.sort_direction || 'asc');
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -59,7 +59,7 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
   }, [search, selectedDivisi, selectedSubDivisi, sortBy, sortDirection]);
 
   const handleSortChange = (column: string) => {
-    let newDirection: 'asc'|'desc' = 'asc';
+    let newDirection: 'asc' | 'desc' = 'asc';
     if (sortBy === column) newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     setSortBy(column); setSortDirection(newDirection);
     router.get('/admin/pengurus', {
@@ -80,9 +80,9 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
     <div className="w-64 border-r pr-4">
       <div className="font-semibold mb-2">Divisi</div>
       <nav className="flex flex-col gap-1">
-        <button className={`text-left px-3 py-2 rounded ${selectedDivisi==='all' ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedDivisi('all')}>Semua Pengurus</button>
+        <button className={`text-left px-3 py-2 rounded ${selectedDivisi === 'all' ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedDivisi('all')}>Semua Pengurus</button>
         {divisis.map(d => (
-          <button key={d.id} className={`text-left px-3 py-2 rounded ${String(d.id)===selectedDivisi ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedDivisi(String(d.id))}>{d.nama}</button>
+          <button key={d.id} className={`text-left px-3 py-2 rounded ${String(d.id) === selectedDivisi ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedDivisi(String(d.id))}>{d.nama}</button>
         ))}
       </nav>
     </div>
@@ -98,26 +98,12 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
             <Sidebar />
             <div className="flex-1 pl-6">
               <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold">{selectedDivisi==='all' ? 'Semua Pengurus' : 'Pengurus Divisi'}</h1>
+                <h1 className="text-2xl font-bold">{selectedDivisi === 'all' ? 'Semua Pengurus' : 'Pengurus Divisi'}</h1>
                 {showCUD && (
                   <Button onClick={() => setIsCreateOpen(true)}>
                     <Plus className="w-4 h-4 mr-2" />Tambah Pengurus
                   </Button>
                 )}
-              </div>
-
-              <div className="mb-4 flex flex-wrap gap-2 items-center">
-                <Input placeholder="Cari pengurus..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />
-                {search && (
-                  <Button variant="outline" size="sm" onClick={() => setSearch('')} title="Hapus pencarian"><X className="w-4 h-4" /></Button>
-                )}
-                <Select value={selectedSubDivisi} onValueChange={(val) => setSelectedSubDivisi(val)}>
-                  <SelectTrigger className="w-[220px]"><SelectValue placeholder="Filter sub divisi" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Semua Sub Divisi</SelectItem>
-                    {subDivisis.map(sd => (<SelectItem key={sd.id} value={String(sd.id)}>{sd.nama}</SelectItem>))}
-                  </SelectContent>
-                </Select>
               </div>
 
               <div className="border rounded-lg">
@@ -147,7 +133,7 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
                         <TableCell>
                           <div className="flex gap-2">
                             {p.sosmeds?.map((s, i) => {
-                              const Icon = ({Facebook,Instagram,Twitter,Linkedin,Youtube,Globe,Link:LinkIcon} as any)[s.icon] || LinkIcon;
+                              const Icon = ({ Facebook, Instagram, Twitter, Linkedin, Youtube, Globe, Link: LinkIcon } as any)[s.icon] || LinkIcon;
                               return <a key={i} href={s.url} target="_blank" className="text-gray-600 hover:text-blue-600"><Icon className="w-4 h-4" /></a>
                             })}
                           </div>

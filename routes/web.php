@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\DivisiController;
 use App\Http\Controllers\Admin\PengurusController;
-use App\Http\Controllers\Admin\SubDivisiController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -103,17 +102,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{id}/restore', [DivisiController::class, 'restore'])->middleware('permission:delete divisi')->name('restore');
         });
 
-        // Sub Divisi management routes
-        Route::prefix('subdivisis')->name('subdivisis.')->group(function () {
-            Route::get('/', [SubDivisiController::class, 'index'])->middleware('permission:view sub divisi')->name('index');
-            Route::get('/create', [SubDivisiController::class, 'create'])->middleware('permission:create sub divisi')->name('create');
-            Route::post('/', [SubDivisiController::class, 'store'])->middleware('permission:create sub divisi')->name('store');
-            Route::get('/{subdivisi}', [SubDivisiController::class, 'show'])->middleware('permission:view sub divisi')->name('show');
-            Route::get('/{subdivisi}/edit', [SubDivisiController::class, 'edit'])->middleware('permission:edit sub divisi')->name('edit');
-            Route::put('/{subdivisi}', [SubDivisiController::class, 'update'])->middleware('permission:edit sub divisi')->name('update');
-            Route::delete('/{subdivisi}', [SubDivisiController::class, 'destroy'])->middleware('permission:delete sub divisi')->name('destroy');
-            Route::put('/{id}/restore', [SubDivisiController::class, 'restore'])->middleware('permission:delete sub divisi')->name('restore');
-        });
         // Galeri management routes
         Route::prefix('galeris')->name('galeris.')->group(function () {
             Route::get('/', [GaleriController::class, 'index'])->middleware('permission:view galeri')->name('index');

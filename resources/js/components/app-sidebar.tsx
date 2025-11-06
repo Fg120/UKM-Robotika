@@ -117,11 +117,6 @@ const data = {
                     url: route('admin.divisis.index'),
                 },
                 {
-                    icon: FolderTree,
-                    title: "Sub Divisi",
-                    url: route('admin.subdivisis.index'),
-                },
-                {
                     icon: Users,
                     title: "Pengurus",
                     url: route('admin.pengurus.index'),
