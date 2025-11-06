@@ -41,7 +41,7 @@ class DivisiSeeder extends Seeder
             ],
         ];
         foreach ($data as $i) {
-            Bidang::updateOrCreate(['id' => $i['id']], $i);
+            Divisi::updateOrCreate(['id' => $i['id']], $i);
         }
     }
 }

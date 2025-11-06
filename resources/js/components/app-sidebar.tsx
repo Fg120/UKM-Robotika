@@ -117,6 +117,11 @@ const data = {
                     url: route('admin.bidangs.index'),
                 },
                 {
+                    icon: GraduationCap,
+                    title: "Posisi",
+                    url: route('admin.posisis.index'),
+                },
+                {
                     icon: Users,
                     title: "Pengurus",
                     url: route('admin.pengurus.index'),

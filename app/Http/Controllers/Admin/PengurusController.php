@@ -78,21 +78,21 @@ class PengurusController extends Controller
         }
     }
 
-    public function show(Pengurus $penguru)
+    public function show(Pengurus $pengurus)
     {
-        return response()->json(['pengurus' => $penguru->load(['bidang', 'sosmeds'])]);
+        return response()->json(['pengurus' => $pengurus->load(['bidang', 'sosmeds'])]);
     }
 
-    public function edit(Pengurus $penguru)
+    public function edit(Pengurus $pengurus)
     {
         $bidangs = Bidang::select('id', 'nama')->orderBy('nama')->get();
         return response()->json([
-            'pengurus' => $penguru->load('sosmeds'),
+            'pengurus' => $pengurus->load('sosmeds'),
             'bidangs' => $bidangs,
         ]);
     }
 
-    public function update(Request $request, Pengurus $penguru)
+    public function update(Request $request, Pengurus $pengurus)
     {
         try {
             $validated = $request->validate([
@@ -116,12 +116,12 @@ class PengurusController extends Controller
                 $data['image'] = $request->file('image')->store('pengurus', 'public');
             }
 
-            $penguru->update($data);
+            $pengurus->update($data);
 
             // sync sosmeds: delete all then re-create (simpler)
-            $penguru->sosmeds()->delete();
+            $pengurus->sosmeds()->delete();
             if (!empty($validated['sosmeds'])) {
-                $penguru->sosmeds()->createMany($validated['sosmeds']);
+                $pengurus->sosmeds()->createMany($validated['sosmeds']);
             }
 
             return back()->with('success', 'Pengurus berhasil diperbarui');
@@ -130,10 +130,10 @@ class PengurusController extends Controller
         }
     }
 
-    public function destroy(Pengurus $penguru)
+    public function destroy(Pengurus $pengurus)
     {
         try {
-            $penguru->delete();
+            $pengurus->delete();
             return back()->with('success', 'Pengurus berhasil dihapus');
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal menghapus pengurus: ' . $e->getMessage());

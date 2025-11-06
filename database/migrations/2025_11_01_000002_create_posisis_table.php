@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('posisis', function (Blueprint $table) {
             $table->id();
+            $table->string('nama')->nullable();
+            $table->integer('urutan')->nullable();
             $table->timestamps();
         });
     }

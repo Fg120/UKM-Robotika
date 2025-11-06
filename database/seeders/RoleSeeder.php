@@ -58,6 +58,11 @@ class RoleSeeder extends Seeder
             'edit bidang',
             'delete bidang',
 
+            'view posisi',
+            'create posisi',
+            'edit posisi',
+            'delete posisi',
+
             'view pengurus',
             'create pengurus',
             'edit pengurus',

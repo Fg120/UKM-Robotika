@@ -133,3 +133,12 @@ export interface Pengurus {
     bidang?: Pick<Bidang, 'id' | 'nama'>;
     sosmeds?: PengurusSocial[];
 }
+
+export interface Posisi {
+    id: number;
+    nama: string;
+    urutan: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+}

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\BidangController;
 use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\GaleriController;
+use App\Http\Controllers\Admin\PosisiController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -81,15 +82,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-        // Pengurus management routes
-        Route::prefix('pengurus')->name('pengurus.')->group(function () {
-            Route::get('/', [PengurusController::class, 'index'])->middleware('permission:view pengurus')->name('index');
-            Route::post('/', [PengurusController::class, 'store'])->middleware('permission:create pengurus')->name('store');
-            Route::get('/{penguru}', [PengurusController::class, 'show'])->middleware('permission:view pengurus')->name('show');
-            Route::get('/{penguru}/edit', [PengurusController::class, 'edit'])->middleware('permission:edit pengurus')->name('edit');
-            Route::put('/{penguru}', [PengurusController::class, 'update'])->middleware('permission:edit pengurus')->name('update');
-            Route::delete('/{penguru}', [PengurusController::class, 'destroy'])->middleware('permission:delete pengurus')->name('destroy');
-        });
         // Bidang management routes
         Route::prefix('bidangs')->name('bidangs.')->group(function () {
             Route::get('/', [BidangController::class, 'index'])->middleware('permission:view bidang')->name('index');
@@ -100,6 +92,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{bidang}', [BidangController::class, 'update'])->middleware('permission:edit bidang')->name('update');
             Route::delete('/{bidang}', [BidangController::class, 'destroy'])->middleware('permission:delete bidang')->name('destroy');
             Route::put('/{id}/restore', [BidangController::class, 'restore'])->middleware('permission:delete bidang')->name('restore');
+        });
+
+        // Posisi management routes
+        Route::prefix('posisis')->name('posisis.')->group(function () {
+            Route::get('/', [PosisiController::class, 'index'])->middleware('permission:view posisi')->name('index');
+            Route::get('/create', [PosisiController::class, 'create'])->middleware('permission:create posisi')->name('create');
+            Route::post('/', [PosisiController::class, 'store'])->middleware('permission:create posisi')->name('store');
+            Route::get('/{posisi}', [PosisiController::class, 'show'])->middleware('permission:view posisi')->name('show');
+            Route::get('/{posisi}/edit', [PosisiController::class, 'edit'])->middleware('permission:edit posisi')->name('edit');
+            Route::put('/{posisi}', [PosisiController::class, 'update'])->middleware('permission:edit posisi')->name('update');
+            Route::delete('/{posisi}', [PosisiController::class, 'destroy'])->middleware('permission:delete posisi')->name('destroy');
+            Route::put('/{id}/restore', [PosisiController::class, 'restore'])->middleware('permission:delete posisi')->name('restore');
+        });
+
+        // Pengurus management routes
+        Route::prefix('pengurus')->name('pengurus.')->group(function () {
+            Route::get('/', [PengurusController::class, 'index'])->middleware('permission:view pengurus')->name('index');
+            Route::post('/', [PengurusController::class, 'store'])->middleware('permission:create pengurus')->name('store');
+            Route::get('/{pengurus}', [PengurusController::class, 'show'])->middleware('permission:view pengurus')->name('show');
+            Route::get('/{pengurus}/edit', [PengurusController::class, 'edit'])->middleware('permission:edit pengurus')->name('edit');
+            Route::put('/{pengurus}', [PengurusController::class, 'update'])->middleware('permission:edit pengurus')->name('update');
+            Route::delete('/{pengurus}', [PengurusController::class, 'destroy'])->middleware('permission:delete pengurus')->name('destroy');
         });
 
         // Galeri management routes
