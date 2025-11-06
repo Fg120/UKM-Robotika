@@ -6,31 +6,31 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Image as ImageIcon } from 'lucide-react';
-import { Divisi } from '@/types';
+import { Bidang } from '@/types';
 
-interface DivisiEditProps {
+interface BidangEditProps {
   isOpen: boolean;
   onClose: () => void;
-  divisiId: number;
+  bidangId: number;
 }
 
-export default function DivisiEdit({ isOpen, onClose, divisiId }: DivisiEditProps) {
-  const [divisi, setDivisi] = useState<Divisi | null>(null);
+export default function BidangEdit({ isOpen, onClose, bidangId }: BidangEditProps) {
+  const [bidang, setBidang] = useState<Bidang | null>(null);
   const [formData, setFormData] = useState<{ nama: string; deskripsi: string; image: File | null; urutan: string }>({ nama: '', deskripsi: '', image: null, urutan: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(false);
 
-  useEffect(() => { if (isOpen && divisiId) { loadDivisi(); } }, [isOpen, divisiId]);
+  useEffect(() => { if (isOpen && bidangId) { loadBidang(); } }, [isOpen, bidangId]);
 
-  const loadDivisi = async () => {
+  const loadBidang = async () => {
     setIsLoadingData(true);
     try {
-      const response = await fetch(`/admin/divisis/${divisiId}/edit`);
+      const response = await fetch(`/admin/bidangs/${bidangId}/edit`);
       const data = await response.json();
-      setDivisi(data.divisi);
-      setFormData({ nama: data.divisi.nama, deskripsi: data.divisi.deskripsi || '', image: null, urutan: data.divisi.urutan ? String(data.divisi.urutan) : '' });
-    } catch (error) { console.error('Error loading divisi:', error); } finally { setIsLoadingData(false); }
+      setBidang(data.bidang);
+      setFormData({ nama: data.bidang.nama, deskripsi: data.bidang.deskripsi || '', image: null, urutan: data.bidang.urutan ? String(data.bidang.urutan) : '' });
+    } catch (error) { console.error('Error loading bidang:', error); } finally { setIsLoadingData(false); }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,7 +41,7 @@ export default function DivisiEdit({ isOpen, onClose, divisiId }: DivisiEditProp
     if (formData.image) payload.image = formData.image;
 
     try {
-      await router.post(`/admin/divisis/${divisiId}`, { ...payload, _method: 'put' }, {
+      await router.post(`/admin/bidangs/${bidangId}`, { ...payload, _method: 'put' }, {
         forceFormData: true,
         onSuccess: () => onClose(),
         onError: (err) => setErrors(err as any),
@@ -51,15 +51,15 @@ export default function DivisiEdit({ isOpen, onClose, divisiId }: DivisiEditProp
   };
 
   const handleClose = () => {
-    if (!isLoading) { setDivisi(null); setFormData({ nama: '', deskripsi: '', image: null, urutan: '' }); setErrors({}); onClose(); }
+    if (!isLoading) { setBidang(null); setFormData({ nama: '', deskripsi: '', image: null, urutan: '' }); setErrors({}); onClose(); }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
-          <DialogTitle>Edit Divisi</DialogTitle>
-          <DialogDescription>Perbarui informasi divisi.</DialogDescription>
+          <DialogTitle>Edit Bidang</DialogTitle>
+          <DialogDescription>Perbarui informasi bidang.</DialogDescription>
         </DialogHeader>
 
         {isLoadingData ? (
@@ -70,7 +70,7 @@ export default function DivisiEdit({ isOpen, onClose, divisiId }: DivisiEditProp
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="nama" className="text-right">Nama</Label>
                 <div className="col-span-3">
-                  <Input id="nama" value={formData.nama} onChange={(e) => setFormData({ ...formData, nama: e.target.value })} placeholder="Masukkan nama divisi" className={errors.nama ? 'border-red-500' : ''} />
+                  <Input id="nama" value={formData.nama} onChange={(e) => setFormData({ ...formData, nama: e.target.value })} placeholder="Masukkan nama bidang" className={errors.nama ? 'border-red-500' : ''} />
                   {errors.nama && (<p className="text-sm text-red-500 mt-1">{errors.nama}</p>)}
                 </div>
               </div>
@@ -86,8 +86,8 @@ export default function DivisiEdit({ isOpen, onClose, divisiId }: DivisiEditProp
               <div className="grid grid-cols-4 items-start gap-4">
                 <Label htmlFor="image" className="text-right pt-2">Gambar</Label>
                 <div className="col-span-3 space-y-2">
-                  {divisi?.image ? (
-                    <img src={`/storage/${divisi.image}`} alt={divisi.nama} className="h-16 w-16 rounded object-cover border" />
+                  {bidang?.image ? (
+                    <img src={`/storage/${bidang.image}`} alt={bidang.nama} className="h-16 w-16 rounded object-cover border" />
                   ) : (
                     <div className="h-16 w-16 rounded border flex items-center justify-center text-gray-400"><ImageIcon className="h-6 w-6" /></div>
                   )}
@@ -99,7 +99,7 @@ export default function DivisiEdit({ isOpen, onClose, divisiId }: DivisiEditProp
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="urutan" className="text-right">Urutan</Label>
                 <div className="col-span-3">
-                  <Input id="urutan" type="number" value={formData.urutan} onChange={(e) => setFormData({ ...formData, urutan: e.target.value })} placeholder="Masukkan urutan divisi" className={errors.urutan ? 'border-red-500' : ''} />
+                  <Input id="urutan" type="number" value={formData.urutan} onChange={(e) => setFormData({ ...formData, urutan: e.target.value })} placeholder="Masukkan urutan bidang" className={errors.urutan ? 'border-red-500' : ''} />
                   {errors.urutan && (<p className="text-sm text-red-500 mt-1">{errors.urutan}</p>)}
                 </div>
               </div>

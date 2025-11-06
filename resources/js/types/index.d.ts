@@ -78,7 +78,7 @@ export interface Tag {
     updated_at: string;
     deleted_at: string | null;
 }
-export interface Divisi {
+export interface Bidang {
     id: number;
     nama: string;
     deskripsi: string | null;
@@ -87,18 +87,6 @@ export interface Divisi {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
-}
-
-export interface SubDivisi {
-    id: number;
-    divisi_id: number;
-    nama: string;
-    deskripsi: string | null;
-    image: string | null;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string | null;
-    divisi?: Pick<Divisi, 'id' | 'nama'>;
 }
 
 export interface Produk {
@@ -138,12 +126,10 @@ export interface Pengurus {
     nama: string;
     image: string | null;
     posisi: 'Kepala' | 'Anggota';
-    divisi_id: number;
-    sub_divisi_id: number | null;
+    bidang_id: number;
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
-    divisi?: Pick<Divisi, 'id' | 'nama'>;
-    subDivisi?: { id: number; nama: string } | null;
+    bidang?: Pick<Bidang, 'id' | 'nama'>;
     sosmeds?: PengurusSocial[];
 }

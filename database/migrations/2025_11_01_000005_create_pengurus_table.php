@@ -12,9 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('image')->nullable();
-            $table->enum('posisi', ['Kepala', 'Anggota']);
-            $table->foreignId('divisi_id')->constrained('divisis')->cascadeOnDelete();
-            $table->foreignId('sub_divisi_id')->nullable()->constrained('sub_divisis')->nullOnDelete();
+            $table->foreignId('posisi_id')->constrained('posisis')->cascadeOnDelete();
+            $table->foreignId('bidang_id')->constrained('bidangs')->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

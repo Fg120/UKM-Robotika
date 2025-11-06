@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Divisi;
+use App\Models\Bidang;
 use App\Models\Pengurus;
 use App\Models\PengurusSosmed;
-use App\Models\SubDivisi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,20 +14,16 @@ class PengurusController extends Controller
     public function index(Request $request)
     {
         try {
-            $pengurus = Pengurus::with(['divisi', 'subDivisi', 'sosmeds']);
+            $pengurus = Pengurus::with(['bidang', 'sosmeds']);
 
             if ($request->filled('search')) {
                 $search = $request->string('search');
                 $pengurus->where('nama', 'like', "%{$search}%");
             }
 
-            $divisiId = $request->input('divisi_id');
-            $subDivisiId = $request->input('sub_divisi_id');
-            if ($divisiId) {
-                $pengurus->where('divisi_id', $divisiId);
-            }
-            if ($subDivisiId) {
-                $pengurus->where('sub_divisi_id', $subDivisiId);
+            $bidangId = $request->input('bidang_id');
+            if ($bidangId) {
+                $pengurus->where('bidang_id', $bidangId);
             }
 
             $order_by = $request->input('order_by');
@@ -37,14 +32,10 @@ class PengurusController extends Controller
                 $pengurus->orderBy($order_by, $sort_direction);
             }
 
-            $selectedDivisi = $divisiId ? Divisi::find($divisiId) : null;
-            $subDivisis = $selectedDivisi ? SubDivisi::where('divisi_id', $selectedDivisi->id)->select('id', 'nama')->orderBy('nama')->get() : [];
-
             return Inertia::render('admin/pengurus/pengurusIndex', [
                 'penguruses' => $pengurus->paginate(10)->withQueryString(),
-                'divisis' => Divisi::select('id', 'nama')->orderBy('nama')->get(),
-                'subDivisis' => $subDivisis,
-                'filters' => $request->only(['search', 'divisi_id', 'sub_divisi_id', 'order_by', 'sort_direction']),
+                'bidangs' => Bidang::select('id', 'nama')->orderBy('nama')->get(),
+                'filters' => $request->only(['search', 'bidang_id', 'order_by', 'sort_direction']),
             ]);
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal memuat data pengurus: ' . $e->getMessage());
@@ -57,8 +48,7 @@ class PengurusController extends Controller
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',
                 'posisi' => 'required|in:Kepala,Anggota',
-                'divisi_id' => 'required|exists:divisis,id',
-                'sub_divisi_id' => 'nullable|exists:sub_divisis,id',
+                'bidang_id' => 'required|exists:bidangs,id',
                 'image' => 'nullable|image|max:4096',
                 'sosmeds' => 'array',
                 'sosmeds.*.platform' => 'required|string|max:50',
@@ -74,8 +64,7 @@ class PengurusController extends Controller
             $pengurus = Pengurus::create([
                 'nama' => $validated['nama'],
                 'posisi' => $validated['posisi'],
-                'divisi_id' => $validated['divisi_id'],
-                'sub_divisi_id' => $validated['sub_divisi_id'] ?? null,
+                'bidang_id' => $validated['bidang_id'],
                 'image' => $imagePath,
             ]);
 
@@ -91,17 +80,15 @@ class PengurusController extends Controller
 
     public function show(Pengurus $penguru)
     {
-        return response()->json(['pengurus' => $penguru->load(['divisi', 'subDivisi', 'sosmeds'])]);
+        return response()->json(['pengurus' => $penguru->load(['bidang', 'sosmeds'])]);
     }
 
     public function edit(Pengurus $penguru)
     {
-        $divisis = Divisi::select('id', 'nama')->orderBy('nama')->get();
-        $subDivisis = $penguru->divisi_id ? SubDivisi::where('divisi_id', $penguru->divisi_id)->select('id', 'nama')->orderBy('nama')->get() : [];
+        $bidangs = Bidang::select('id', 'nama')->orderBy('nama')->get();
         return response()->json([
             'pengurus' => $penguru->load('sosmeds'),
-            'divisis' => $divisis,
-            'subDivisis' => $subDivisis,
+            'bidangs' => $bidangs,
         ]);
     }
 
@@ -111,8 +98,7 @@ class PengurusController extends Controller
             $validated = $request->validate([
                 'nama' => 'required|string|max:255',
                 'posisi' => 'required|in:Kepala,Anggota',
-                'divisi_id' => 'required|exists:divisis,id',
-                'sub_divisi_id' => 'nullable|exists:sub_divisis,id',
+                'bidang_id' => 'required|exists:bidangs,id',
                 'image' => 'nullable|image|max:4096',
                 'sosmeds' => 'array',
                 'sosmeds.*.platform' => 'required|string|max:50',
@@ -123,8 +109,7 @@ class PengurusController extends Controller
             $data = [
                 'nama' => $validated['nama'],
                 'posisi' => $validated['posisi'],
-                'divisi_id' => $validated['divisi_id'],
-                'sub_divisi_id' => $validated['sub_divisi_id'] ?? null,
+                'bidang_id' => $validated['bidang_id'],
             ];
 
             if ($request->hasFile('image')) {

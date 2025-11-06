@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Divisi;
+use App\Models\Bidang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-class DivisiController extends Controller
+class BidangController extends Controller
 {
     public function index(Request $request)
     {
         try {
-            $divisis = Divisi::query();
+            $bidangs = Bidang::query();
             $search = $request->input('search');
 
             if ($request->filled('search')) {
-                $divisis->where(function ($query) use ($search) {
+                $bidangs->where(function ($query) use ($search) {
                     $query->where('nama', 'like', '%' . $search . '%')
                         ->orWhere('deskripsi', 'like', '%' . $search . '%');
                 });
@@ -27,23 +27,23 @@ class DivisiController extends Controller
             $sort_direction = $request->input('sort_direction', 'asc');
 
             if ($order_by) {
-                $divisis->orderBy($order_by, $sort_direction);
+                $bidangs->orderBy($order_by, $sort_direction);
             }
 
-            return Inertia::render('admin/divisi/divisiIndex', [
-                'divisis' => $divisis->paginate(10)->withQueryString(),
+            return Inertia::render('admin/bidang/bidangIndex', [
+                'bidangs' => $bidangs->paginate(10)->withQueryString(),
                 'filters' => $request->only(['search', 'order_by', 'sort_direction']),
             ]);
         } catch (\Exception $e) {
-            return redirect()->route('admin.divisis.index')
-                ->with('error', 'Terjadi kesalahan saat memuat data divisi: ' . $e->getMessage());
+            return redirect()->route('admin.bidangs.index')
+                ->with('error', 'Terjadi kesalahan saat memuat data bidang: ' . $e->getMessage());
         }
     }
 
     public function create()
     {
         return response()->json([
-            'message' => 'Form untuk membuat divisi baru',
+            'message' => 'Form untuk membuat bidang baru',
         ]);
     }
 
@@ -51,7 +51,7 @@ class DivisiController extends Controller
     {
         try {
             $request->validate([
-                'nama' => 'required|string|max:255|unique:divisis,nama',
+                'nama' => 'required|string|max:255|unique:bidangs,nama',
                 'deskripsi' => 'nullable|string|max:2000',
                 'image' => 'nullable|image|max:4096',
                 'urutan' => 'required|integer',
@@ -59,41 +59,41 @@ class DivisiController extends Controller
 
             $imagePath = null;
             if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('divisis', 'public');
+                $imagePath = $request->file('image')->store('bidangs', 'public');
             }
 
-            Divisi::create([
+            Bidang::create([
                 'nama' => $request->nama,
                 'deskripsi' => $request->deskripsi,
                 'image' => $imagePath,
                 'urutan' => $request->urutan,
             ]);
 
-            return back()->with('success', 'Divisi berhasil dibuat');
+            return back()->with('success', 'Bidang berhasil dibuat');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat membuat divisi: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat membuat bidang: ' . $e->getMessage());
         }
     }
 
-    public function show(Divisi $divisi)
+    public function show(Bidang $bidang)
     {
         return response()->json([
-            'divisi' => $divisi,
+            'bidang' => $bidang,
         ]);
     }
 
-    public function edit(Divisi $divisi)
+    public function edit(Bidang $bidang)
     {
         return response()->json([
-            'divisi' => $divisi,
+            'bidang' => $bidang,
         ]);
     }
 
-    public function update(Request $request, Divisi $divisi)
+    public function update(Request $request, Bidang $bidang)
     {
         try {
             $request->validate([
-                'nama' => 'required|string|max:255|unique:divisis,nama,' . $divisi->id,
+                'nama' => 'required|string|max:255|unique:bidangs,nama,' . $bidang->id,
                 'deskripsi' => 'nullable|string|max:2000',
                 'image' => 'nullable|image|max:4096',
                 'urutan' => 'required|integer',
@@ -106,36 +106,36 @@ class DivisiController extends Controller
             ];
 
             if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('divisis', 'public');
+                $imagePath = $request->file('image')->store('bidangs', 'public');
                 $data['image'] = $imagePath;
             }
 
-            $divisi->update($data);
+            $bidang->update($data);
 
-            return back()->with('success', 'Divisi berhasil diperbarui');
+            return back()->with('success', 'Bidang berhasil diperbarui');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat memperbarui divisi: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat memperbarui bidang: ' . $e->getMessage());
         }
     }
 
-    public function destroy(Divisi $divisi)
+    public function destroy(Bidang $bidang)
     {
         try {
-            $divisi->delete();
-            return back()->with('success', 'Divisi berhasil dihapus');
+            $bidang->delete();
+            return back()->with('success', 'Bidang berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat menghapus divisi: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat menghapus bidang: ' . $e->getMessage());
         }
     }
 
     public function restore($id)
     {
         try {
-            $divisi = Divisi::withTrashed()->findOrFail($id);
-            $divisi->restore();
-            return back()->with('success', 'Divisi berhasil dikembalikan');
+            $bidang = Bidang::withTrashed()->findOrFail($id);
+            $bidang->restore();
+            return back()->with('success', 'Bidang berhasil dikembalikan');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat mengembalikan divisi: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat mengembalikan bidang: ' . $e->getMessage());
         }
     }
 }

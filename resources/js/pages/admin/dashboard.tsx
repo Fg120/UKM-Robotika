@@ -9,12 +9,12 @@ interface DashboardProps {
     stats: {
         totalUsers: number;
         totalProduk: number;
-        totalDivisi: number;
+        totalBidang: number;
         totalPengurus: number;
         totalGaleri: number;
         totalKategori: number;
         aktiveProduk: number;
-        aktiveDivisi: number;
+        aktiveBidang: number;
     };
     recentData: {
         produk: any[];
@@ -22,7 +22,7 @@ interface DashboardProps {
         galeri: any[];
         pengurus: any[];
     };
-    divisiStats: any[];
+    bidangStats: any[];
     userGrowth: Record<string, number>;
     productStatus: {
         aktif: number;
@@ -33,7 +33,7 @@ interface DashboardProps {
 export default function AdminDashboard({
     stats,
     recentData,
-    divisiStats,
+    bidangStats,
     userGrowth,
     productStatus,
 }: DashboardProps) {
@@ -71,12 +71,12 @@ export default function AdminDashboard({
 
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Total Divisi</CardTitle>
+                            <CardTitle className="text-sm font-medium">Total Bidang</CardTitle>
                             <Layers className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{stats.totalDivisi}</div>
-                            <p className="text-xs text-muted-foreground">Divisi organisasi</p>
+                            <div className="text-2xl font-bold">{stats.totalBidang}</div>
+                            <p className="text-xs text-muted-foreground">Bidang organisasi</p>
                         </CardContent>
                     </Card>
 

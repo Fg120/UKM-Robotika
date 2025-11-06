@@ -53,10 +53,10 @@ class RoleSeeder extends Seeder
             'edit produk',
             'delete produk',
 
-            'view divisi',
-            'create divisi',
-            'edit divisi',
-            'delete divisi',
+            'view bidang',
+            'create bidang',
+            'edit bidang',
+            'delete bidang',
 
             'view pengurus',
             'create pengurus',

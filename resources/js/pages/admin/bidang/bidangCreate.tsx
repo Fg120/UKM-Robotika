@@ -7,12 +7,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
 
-interface DivisiCreateProps {
+interface BidangCreateProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function DivisiCreate({ isOpen, onClose }: DivisiCreateProps) {
+export default function BidangCreate({ isOpen, onClose }: BidangCreateProps) {
   const [formData, setFormData] = useState<{ nama: string; deskripsi: string; image: File | null; urutan: string }>({ nama: '', deskripsi: '', image: null, urutan: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ export default function DivisiCreate({ isOpen, onClose }: DivisiCreateProps) {
     if (formData.image) payload.image = formData.image;
 
     try {
-      await router.post('/admin/divisis', payload, {
+      await router.post('/admin/bidangs', payload, {
         forceFormData: true,
         onSuccess: () => {
           setFormData({ nama: '', deskripsi: '', image: null, urutan: '' });
@@ -56,8 +56,8 @@ export default function DivisiCreate({ isOpen, onClose }: DivisiCreateProps) {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
-          <DialogTitle>Tambah Divisi Baru</DialogTitle>
-          <DialogDescription>Tambah divisi beserta gambar opsional.</DialogDescription>
+          <DialogTitle>Tambah Bidang Baru</DialogTitle>
+          <DialogDescription>Tambah bidang beserta gambar opsional.</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit}>
@@ -65,7 +65,7 @@ export default function DivisiCreate({ isOpen, onClose }: DivisiCreateProps) {
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="nama" className="text-right">Nama</Label>
               <div className="col-span-3">
-                <Input id="nama" value={formData.nama} onChange={(e) => setFormData({ ...formData, nama: e.target.value })} placeholder="Masukkan nama divisi" className={errors.nama ? 'border-red-500' : ''} />
+                <Input id="nama" value={formData.nama} onChange={(e) => setFormData({ ...formData, nama: e.target.value })} placeholder="Masukkan nama bidang" className={errors.nama ? 'border-red-500' : ''} />
                 {errors.nama && (<p className="text-sm text-red-500 mt-1">{errors.nama}</p>)}
               </div>
             </div>
@@ -89,7 +89,7 @@ export default function DivisiCreate({ isOpen, onClose }: DivisiCreateProps) {
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="urutan" className="text-right">Urutan</Label>
               <div className="col-span-3">
-                <Input id="urutan" type="number" value={formData.urutan} onChange={(e) => setFormData({ ...formData, urutan: e.target.value })} placeholder="Masukkan urutan divisi" className={errors.urutan ? 'border-red-500' : ''} />
+                <Input id="urutan" type="number" value={formData.urutan} onChange={(e) => setFormData({ ...formData, urutan: e.target.value })} placeholder="Masukkan urutan bidang" className={errors.urutan ? 'border-red-500' : ''} />
                 {errors.urutan && (<p className="text-sm text-red-500 mt-1">{errors.urutan}</p>)}
               </div>
             </div>

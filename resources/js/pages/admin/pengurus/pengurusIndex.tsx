@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Head, router } from '@inertiajs/react';
-import { Divisi } from '@/types';
+import { Bidang } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -18,29 +18,25 @@ interface Pengurus {
   nama: string;
   image: string | null;
   posisi: 'Kepala' | 'Anggota';
-  divisi_id: number;
-  sub_divisi_id?: number | null;
-  divisi?: Pick<Divisi, 'id' | 'nama'>;
-  subDivisi?: { id: number; nama: string } | null;
+  bidang_id: number;
+  bidang?: Pick<Bidang, 'id' | 'nama'>;
   sosmeds?: Sosmed[];
   created_at: string;
 }
 
 interface Props {
   penguruses: { data: Pengurus[]; links: any[]; meta: any };
-  divisis: Pick<Divisi, 'id' | 'nama'>[];
-  subDivisis: { id: number; nama: string }[];
-  filters?: { search?: string; divisi_id?: string; sub_divisi_id?: string; order_by?: string; sort_direction?: 'asc' | 'desc' };
+  bidangs: Pick<Bidang, 'id' | 'nama'>[];
+  filters?: { search?: string; bidang_id?: string; order_by?: string; sort_direction?: 'asc' | 'desc' };
 }
 
-export default function PengurusIndex({ penguruses, divisis, subDivisis, filters }: Props) {
+export default function PengurusIndex({ penguruses, bidangs, filters }: Props) {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedPengurus, setSelectedPengurus] = useState<Pengurus | null>(null);
   const [search, setSearch] = useState(filters?.search || '');
-  const [selectedDivisi, setSelectedDivisi] = useState<string>(filters?.divisi_id || 'all');
-  const [selectedSubDivisi, setSelectedSubDivisi] = useState<string>(filters?.sub_divisi_id || 'all');
+  const [selectedBidang, setSelectedBidang] = useState<string>(filters?.bidang_id || 'all');
   const [sortBy, setSortBy] = useState(filters?.order_by || '');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(filters?.sort_direction || 'asc');
 
@@ -48,15 +44,14 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
     const timeoutId = setTimeout(() => {
       router.get('/admin/pengurus', {
         search: search || undefined,
-        divisi_id: (selectedDivisi && selectedDivisi !== 'all') ? selectedDivisi : undefined,
-        sub_divisi_id: (selectedSubDivisi && selectedSubDivisi !== 'all') ? selectedSubDivisi : undefined,
+        bidang_id: (selectedBidang && selectedBidang !== 'all') ? selectedBidang : undefined,
         order_by: sortBy || undefined,
         sort_direction: sortDirection,
         page: 1,
       }, { preserveState: true });
     }, 500);
     return () => clearTimeout(timeoutId);
-  }, [search, selectedDivisi, selectedSubDivisi, sortBy, sortDirection]);
+  }, [search, selectedBidang, sortBy, sortDirection]);
 
   const handleSortChange = (column: string) => {
     let newDirection: 'asc' | 'desc' = 'asc';
@@ -64,8 +59,7 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
     setSortBy(column); setSortDirection(newDirection);
     router.get('/admin/pengurus', {
       search: search || undefined,
-      divisi_id: (selectedDivisi && selectedDivisi !== 'all') ? selectedDivisi : undefined,
-      sub_divisi_id: (selectedSubDivisi && selectedSubDivisi !== 'all') ? selectedSubDivisi : undefined,
+      bidang_id: (selectedBidang && selectedBidang !== 'all') ? selectedBidang : undefined,
       order_by: column,
       sort_direction: newDirection,
       page: 1,
@@ -74,15 +68,15 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
   const getSortIcon = (column: string) => sortBy !== column ? <ArrowUpDown className="ml-2 h-4 w-4" /> : (sortDirection === 'asc' ? <ArrowUp className="ml-2 h-4 w-4" /> : <ArrowDown className="ml-2 h-4 w-4" />);
 
   const [showCUD, setShowCUD] = useState(false);
-  useEffect(() => { setShowCUD(selectedDivisi !== 'all'); }, [selectedDivisi]);
+  useEffect(() => { setShowCUD(selectedBidang !== 'all'); }, [selectedBidang]);
 
   const Sidebar = () => (
     <div className="w-64 border-r pr-4">
-      <div className="font-semibold mb-2">Divisi</div>
+      <div className="font-semibold mb-2">Bidang</div>
       <nav className="flex flex-col gap-1">
-        <button className={`text-left px-3 py-2 rounded ${selectedDivisi === 'all' ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedDivisi('all')}>Semua Pengurus</button>
-        {divisis.map(d => (
-          <button key={d.id} className={`text-left px-3 py-2 rounded ${String(d.id) === selectedDivisi ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedDivisi(String(d.id))}>{d.nama}</button>
+        <button className={`text-left px-3 py-2 rounded ${selectedBidang === 'all' ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedBidang('all')}>Semua Pengurus</button>
+        {bidangs.map(d => (
+          <button key={d.id} className={`text-left px-3 py-2 rounded ${String(d.id) === selectedBidang ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`} onClick={() => setSelectedBidang(String(d.id))}>{d.nama}</button>
         ))}
       </nav>
     </div>
@@ -98,7 +92,7 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
             <Sidebar />
             <div className="flex-1 pl-6">
               <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold">{selectedDivisi === 'all' ? 'Semua Pengurus' : 'Pengurus Divisi'}</h1>
+                <h1 className="text-2xl font-bold">{selectedBidang === 'all' ? 'Semua Pengurus' : 'Pengurus Bidang'}</h1>
                 {showCUD && (
                   <Button onClick={() => setIsCreateOpen(true)}>
                     <Plus className="w-4 h-4 mr-2" />Tambah Pengurus
@@ -114,8 +108,7 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
                       <TableHead>Foto</TableHead>
                       <TableHead><Button variant="ghost" className="h-auto p-0 font-semibold" onClick={() => handleSortChange('nama')}>Nama {getSortIcon('nama')}</Button></TableHead>
                       <TableHead>Posisi</TableHead>
-                      <TableHead>Divisi</TableHead>
-                      <TableHead>Sub Divisi</TableHead>
+                      <TableHead>Bidang</TableHead>
                       <TableHead>Sosmed</TableHead>
                       <TableHead><Button variant="ghost" className="h-auto p-0 font-semibold" onClick={() => handleSortChange('created_at')}>Dibuat {getSortIcon('created_at')}</Button></TableHead>
                       {showCUD && (<TableHead className="text-right">Aksi</TableHead>)}
@@ -128,8 +121,7 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
                         <TableCell>{p.image ? (<img src={`/storage/${p.image}`} alt={p.nama} className="h-10 w-10 rounded object-cover border" />) : (<div className="h-10 w-10 rounded border flex items-center justify-center text-gray-400"><ImageIcon className="h-5 w-5" /></div>)}</TableCell>
                         <TableCell className="font-medium">{p.nama}</TableCell>
                         <TableCell>{p.posisi}</TableCell>
-                        <TableCell>{p.divisi?.nama ?? '-'}</TableCell>
-                        <TableCell>{p.subDivisi?.nama ?? '-'}</TableCell>
+                        <TableCell>{p.bidang?.nama ?? '-'}</TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             {p.sosmeds?.map((s, i) => {
@@ -163,7 +155,7 @@ export default function PengurusIndex({ penguruses, divisis, subDivisis, filters
                 </div>
               )}
 
-              <PengurusCreate isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} divisis={divisis} selectedDivisi={selectedDivisi} />
+              <PengurusCreate isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} bidangs={bidangs} selectedBidang={selectedBidang} />
               {selectedPengurus && (
                 <PengurusEdit isOpen={isEditOpen} onClose={() => { setIsEditOpen(false); setSelectedPengurus(null); }} pengurusId={selectedPengurus.id} />
               )}

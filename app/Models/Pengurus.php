@@ -16,18 +16,12 @@ class Pengurus extends Model
         'nama',
         'image',
         'posisi',
-        'divisi_id',
-        'sub_divisi_id',
+        'bidang_id',
     ];
 
-    public function divisi()
+    public function bidang()
     {
-        return $this->belongsTo(Divisi::class);
-    }
-
-    public function subDivisi()
-    {
-        return $this->belongsTo(SubDivisi::class, 'sub_divisi_id');
+        return $this->belongsTo(Bidang::class);
     }
 
     public function sosmeds()

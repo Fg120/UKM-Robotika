@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\ProdukController;
-use App\Http\Controllers\Admin\DivisiController;
+use App\Http\Controllers\Admin\BidangController;
 use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\DashboardController;
@@ -90,16 +90,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{penguru}', [PengurusController::class, 'update'])->middleware('permission:edit pengurus')->name('update');
             Route::delete('/{penguru}', [PengurusController::class, 'destroy'])->middleware('permission:delete pengurus')->name('destroy');
         });
-        // Divisi management routes
-        Route::prefix('divisis')->name('divisis.')->group(function () {
-            Route::get('/', [DivisiController::class, 'index'])->middleware('permission:view divisi')->name('index');
-            Route::get('/create', [DivisiController::class, 'create'])->middleware('permission:create divisi')->name('create');
-            Route::post('/', [DivisiController::class, 'store'])->middleware('permission:create divisi')->name('store');
-            Route::get('/{divisi}', [DivisiController::class, 'show'])->middleware('permission:view divisi')->name('show');
-            Route::get('/{divisi}/edit', [DivisiController::class, 'edit'])->middleware('permission:edit divisi')->name('edit');
-            Route::put('/{divisi}', [DivisiController::class, 'update'])->middleware('permission:edit divisi')->name('update');
-            Route::delete('/{divisi}', [DivisiController::class, 'destroy'])->middleware('permission:delete divisi')->name('destroy');
-            Route::put('/{id}/restore', [DivisiController::class, 'restore'])->middleware('permission:delete divisi')->name('restore');
+        // Bidang management routes
+        Route::prefix('bidangs')->name('bidangs.')->group(function () {
+            Route::get('/', [BidangController::class, 'index'])->middleware('permission:view bidang')->name('index');
+            Route::get('/create', [BidangController::class, 'create'])->middleware('permission:create bidang')->name('create');
+            Route::post('/', [BidangController::class, 'store'])->middleware('permission:create bidang')->name('store');
+            Route::get('/{bidang}', [BidangController::class, 'show'])->middleware('permission:view bidang')->name('show');
+            Route::get('/{bidang}/edit', [BidangController::class, 'edit'])->middleware('permission:edit bidang')->name('edit');
+            Route::put('/{bidang}', [BidangController::class, 'update'])->middleware('permission:edit bidang')->name('update');
+            Route::delete('/{bidang}', [BidangController::class, 'destroy'])->middleware('permission:delete bidang')->name('destroy');
+            Route::put('/{id}/restore', [BidangController::class, 'restore'])->middleware('permission:delete bidang')->name('restore');
         });
 
         // Galeri management routes

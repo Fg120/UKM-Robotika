@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Divisi;
+use App\Models\Bidang;
 use App\Models\Galeri;
 use App\Models\Kategori;
 use App\Models\Pengurus;
@@ -18,14 +18,14 @@ class DashboardController extends Controller
         // Total counts
         $totalUsers = User::count();
         $totalProduk = Produk::count();
-        $totalDivisi = Divisi::count();
+        $totalBidang = Bidang::count();
         $totalPengurus = Pengurus::count();
         $totalGaleri = Galeri::count();
         $totalKategori = Kategori::count();
 
         // Active counts
         $aktiveProduk = Produk::where('aktif', true)->count();
-        $aktiveDivisi = Divisi::count();
+        $aktiveBidang = Bidang::count();
 
         // Recent data
         $recentProduk = Produk::orderBy('created_at', 'desc')->limit(5)->get();
@@ -33,20 +33,14 @@ class DashboardController extends Controller
         $recentGaleri = Galeri::orderBy('created_at', 'desc')->limit(5)->get();
         $recentPengurus = Pengurus::orderBy('created_at', 'desc')->limit(5)->get();
 
-        // Statistics by divisi
-        $divisiStats = Divisi::withCount('subDivisis')
-            ->with(['subDivisis' => function ($query) {
-                $query->withCount('pengurus');
-            }])
+        // Statistics by bidang
+        $bidangStats = Bidang::withCount('pengurus')
             ->get()
-            ->map(function ($divisi) {
+            ->map(function ($bidang) {
                 return [
-                    'id' => $divisi->id,
-                    'nama' => $divisi->nama,
-                    'sub_divisis_count' => $divisi->sub_divisis_count,
-                    'pengurus_count' => $divisi->subDivisis->sum(function ($sub) {
-                        return $sub->pengurus_count;
-                    }),
+                    'id' => $bidang->id,
+                    'nama' => $bidang->nama,
+                    'pengurus_count' => $bidang->pengurus_count,
                 ];
             });
 
@@ -71,12 +65,12 @@ class DashboardController extends Controller
             'stats' => [
                 'totalUsers' => $totalUsers,
                 'totalProduk' => $totalProduk,
-                'totalDivisi' => $totalDivisi,
+                'totalBidang' => $totalBidang,
                 'totalPengurus' => $totalPengurus,
                 'totalGaleri' => $totalGaleri,
                 'totalKategori' => $totalKategori,
                 'aktiveProduk' => $aktiveProduk,
-                'aktiveDivisi' => $aktiveDivisi,
+                'aktiveBidang' => $aktiveBidang,
             ],
             'recentData' => [
                 'produk' => $recentProduk,
@@ -84,7 +78,7 @@ class DashboardController extends Controller
                 'galeri' => $recentGaleri,
                 'pengurus' => $recentPengurus,
             ],
-            'divisiStats' => $divisiStats,
+            'bidangStats' => $bidangStats,
             'userGrowth' => $userGrowth,
             'productStatus' => $productStatus,
         ]);

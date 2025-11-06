@@ -113,8 +113,8 @@ const data = {
             items: [
                 {
                     icon: Folder,
-                    title: "Divisi",
-                    url: route('admin.divisis.index'),
+                    title: "Bidang",
+                    url: route('admin.bidangs.index'),
                 },
                 {
                     icon: Users,

@@ -21,15 +21,14 @@ const platforms = [
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  divisis: { id: number; nama: string }[];
-  selectedDivisi: string;
+  bidangs: { id: number; nama: string }[];
+  selectedBidang: string;
 }
 
-export default function PengurusCreate({ isOpen, onClose, divisis, selectedDivisi }: Props) {
-  const [formData, setFormData] = useState<{ nama: string; posisi: 'Kepala' | 'Anggota' | ''; divisi_id: string; sub_divisi_id: string; image: File | null; sosmeds: { platform: string; icon: string; url: string }[] }>({ nama: '', posisi: '', divisi_id: selectedDivisi && selectedDivisi !== 'all' ? selectedDivisi : '', sub_divisi_id: '', image: null, sosmeds: [] });
+export default function PengurusCreate({ isOpen, onClose, bidangs, selectedBidang }: Props) {
+  const [formData, setFormData] = useState<{ nama: string; posisi: 'Kepala' | 'Anggota' | ''; bidang_id: string; image: File | null; sosmeds: { platform: string; icon: string; url: string }[] }>({ nama: '', posisi: '', bidang_id: selectedBidang && selectedBidang !== 'all' ? selectedBidang : '', image: null, sosmeds: [] });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [subDivisis, setSubDivisis] = useState<{ id: number; nama: string }[]>([]);
 
   const addSosmed = () => setFormData({ ...formData, sosmeds: [...formData.sosmeds, { platform: '', icon: '', url: '' }] });
   const removeSosmed = (i: number) => setFormData({ ...formData, sosmeds: formData.sosmeds.filter((_, idx) => idx !== i) });
@@ -44,11 +43,11 @@ export default function PengurusCreate({ isOpen, onClose, divisis, selectedDivis
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setIsLoading(true); setErrors({});
-    const payload: any = { nama: formData.nama, posisi: formData.posisi, divisi_id: formData.divisi_id, sub_divisi_id: formData.sub_divisi_id || undefined };
+    const payload: any = { nama: formData.nama, posisi: formData.posisi, bidang_id: formData.bidang_id };
     if (formData.image) payload.image = formData.image;
     if (formData.sosmeds.length) payload.sosmeds = formData.sosmeds.filter(s => s.platform && s.url);
     try {
-      await router.post('/admin/pengurus', { ...payload }, { forceFormData: true, onSuccess: () => { setFormData({ nama: '', posisi: '', divisi_id: selectedDivisi !== 'all' ? selectedDivisi : '', sub_divisi_id: '', image: null, sosmeds: [] }); onClose(); }, onError: (e) => setErrors(e as any), onFinish: () => setIsLoading(false) });
+      await router.post('/admin/pengurus', { ...payload }, { forceFormData: true, onSuccess: () => { setFormData({ nama: '', posisi: '', bidang_id: selectedBidang !== 'all' ? selectedBidang : '', image: null, sosmeds: [] }); onClose(); }, onError: (e) => setErrors(e as any), onFinish: () => setIsLoading(false) });
     } catch { setIsLoading(false); }
   };
 
@@ -59,7 +58,7 @@ export default function PengurusCreate({ isOpen, onClose, divisis, selectedDivis
       <DialogContent className="sm:max-w-[700px]">
         <DialogHeader>
           <DialogTitle>Tambah Pengurus</DialogTitle>
-          <DialogDescription>Tambahkan pengurus untuk divisi terkait.</DialogDescription>
+          <DialogDescription>Tambahkan pengurus untuk bidang terkait.</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="grid gap-4 py-2">
@@ -86,15 +85,15 @@ export default function PengurusCreate({ isOpen, onClose, divisis, selectedDivis
           </div>
 
           <div className="grid grid-cols-4 items-center gap-3">
-            <Label className="text-right">Divisi</Label>
+            <Label className="text-right">Bidang</Label>
             <div className="col-span-3">
-              <Select value={formData.divisi_id} onValueChange={(v) => { setFormData({ ...formData, divisi_id: v, sub_divisi_id: '' }); loadSubDivisis(v); }}>
-                <SelectTrigger><SelectValue placeholder="Pilih divisi" /></SelectTrigger>
+              <Select value={formData.bidang_id} onValueChange={(v) => setFormData({ ...formData, bidang_id: v })}>
+                <SelectTrigger><SelectValue placeholder="Pilih bidang" /></SelectTrigger>
                 <SelectContent>
-                  {divisis.map(d => (<SelectItem key={d.id} value={String(d.id)}>{d.nama}</SelectItem>))}
+                  {bidangs.map(d => (<SelectItem key={d.id} value={String(d.id)}>{d.nama}</SelectItem>))}
                 </SelectContent>
               </Select>
-              {errors.divisi_id && <p className="text-sm text-red-500 mt-1">{errors.divisi_id}</p>}
+              {errors.bidang_id && <p className="text-sm text-red-500 mt-1">{errors.bidang_id}</p>}
             </div>
           </div>
 

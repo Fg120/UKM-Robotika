@@ -6,24 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SubDivisi extends Model
+class Bidang extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'divisi_id',
         'nama',
         'deskripsi',
         'image',
+        'urutan',
     ];
-
-    public function divisi()
-    {
-        return $this->belongsTo(Divisi::class);
-    }
 
     public function pengurus()
     {
-        return $this->hasMany(Pengurus::class, 'sub_divisi_id');
+        return $this->hasMany(Pengurus::class);
     }
 }
