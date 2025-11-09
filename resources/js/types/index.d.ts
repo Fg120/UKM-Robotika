@@ -143,3 +143,23 @@ export interface Posisi {
     updated_at: string;
     deleted_at: string | null;
 }
+
+export interface Artikel {
+    id: number;
+    judul: string;
+    slug: string;
+    excerpt: string | null;
+    konten: string;
+    image: string | null;
+    kategori_id: number | null;
+    user_id: number;
+    published: boolean;
+    published_at: string | null;
+    views: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    user?: Pick<User, 'id' | 'name' | 'email'>;
+    kategori?: Pick<Kategori, 'id' | 'nama'>;
+    tags?: Pick<Tag, 'id' | 'nama'>[];
+}

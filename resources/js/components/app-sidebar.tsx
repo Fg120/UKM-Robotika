@@ -97,7 +97,7 @@ const data = {
                 {
                     icon: Newspaper,
                     title: "Artikel",
-                    url: "#",
+                    url: route('admin.artikel.index'),
                 },
                 {
                     icon: Play,

@@ -77,6 +77,12 @@ class PermissionSeeder extends Seeder
             'edit pengurus',
             'delete pengurus',
 
+            // Artikel management
+            'view artikel',
+            'create artikel',
+            'edit artikel',
+            'delete artikel',
+
             // Dashboard
             'view dashboard',
 

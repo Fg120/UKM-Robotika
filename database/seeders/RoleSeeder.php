@@ -68,6 +68,11 @@ class RoleSeeder extends Seeder
             'edit pengurus',
             'delete pengurus',
 
+            'view artikel',
+            'create artikel',
+            'edit artikel',
+            'delete artikel',
+
             'view dashboard',
             'view profile',
             'edit profile',
@@ -80,26 +85,6 @@ class RoleSeeder extends Seeder
             'view dashboard',
             'view profile',
             'edit profile',
-        ]);
-
-        $moderatorRole = Role::create(['name' => 'moderator']);
-        $moderatorRole->givePermissionTo([
-            'view users',
-            'edit users',
-            'view dashboard',
-            'view profile',
-            'edit profile',
-            'view settings',
-        ]);
-
-        $viewerRole = Role::create(['name' => 'viewer']);
-        $viewerRole->givePermissionTo([
-            'view users',
-            'view roles',
-            'view permissions',
-            'view dashboard',
-            'view profile',
-            'view settings',
         ]);
     }
 }

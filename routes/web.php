@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\BidangController;
 use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\PosisiController;
+use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -133,6 +134,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{tag}', [TagController::class, 'update'])->middleware('permission:edit tag')->name('update');
             Route::delete('/{tag}', [TagController::class, 'destroy'])->middleware('permission:delete tag')->name('destroy');
             Route::put('/{id}/restore', [TagController::class, 'restore'])->middleware('permission:delete tag')->name('restore');
+        });
+
+        // Artikel management routes
+        Route::prefix('artikel')->name('artikel.')->group(function () {
+            Route::post('/upload-image', [ArtikelController::class, 'uploadImage'])->middleware('permission:create artikel')->name('uploadImage');
+            Route::get('/', [ArtikelController::class, 'index'])->middleware('permission:view artikel')->name('index');
+            Route::get('/create', [ArtikelController::class, 'create'])->middleware('permission:create artikel')->name('create');
+            Route::post('/', [ArtikelController::class, 'store'])->middleware('permission:create artikel')->name('store');
+            Route::get('/{artikel}/edit', [ArtikelController::class, 'edit'])->middleware('permission:edit artikel')->name('edit');
+            Route::put('/{artikel}', [ArtikelController::class, 'update'])->middleware('permission:edit artikel')->name('update');
+            Route::delete('/{artikel}', [ArtikelController::class, 'destroy'])->middleware('permission:delete artikel')->name('destroy');
         });
     });
 });
