@@ -11,13 +11,17 @@ use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\PosisiController;
 use App\Http\Controllers\Admin\ArtikelController;
+use App\Http\Controllers\ArtikelPublicController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Public Artikel Routes
+Route::get('/artikel', [ArtikelPublicController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/{slug}', [ArtikelPublicController::class, 'show'])->name('artikel.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
