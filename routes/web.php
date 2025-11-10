@@ -7,11 +7,13 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\BidangController;
+use App\Http\Controllers\Admin\DivisiController;
 use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\PosisiController;
 use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\ArtikelPublicController;
+use App\Http\Controllers\DivisiPublicController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +24,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Public Artikel Routes
 Route::get('/artikel', [ArtikelPublicController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{slug}', [ArtikelPublicController::class, 'show'])->name('artikel.show');
+
+// Public Divisi Routes
+Route::get('/divisi', [DivisiPublicController::class, 'index'])->name('divisi.index');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -97,6 +102,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{bidang}', [BidangController::class, 'update'])->middleware('permission:edit bidang')->name('update');
             Route::delete('/{bidang}', [BidangController::class, 'destroy'])->middleware('permission:delete bidang')->name('destroy');
             Route::put('/{id}/restore', [BidangController::class, 'restore'])->middleware('permission:delete bidang')->name('restore');
+        });
+
+        // Divisi management routes
+        Route::prefix('divisis')->name('divisis.')->group(function () {
+            Route::get('/', [DivisiController::class, 'index'])->middleware('permission:view divisi')->name('index');
+            Route::get('/create', [DivisiController::class, 'create'])->middleware('permission:create divisi')->name('create');
+            Route::post('/', [DivisiController::class, 'store'])->middleware('permission:create divisi')->name('store');
+            Route::get('/{divisi}', [DivisiController::class, 'show'])->middleware('permission:view divisi')->name('show');
+            Route::get('/{divisi}/edit', [DivisiController::class, 'edit'])->middleware('permission:edit divisi')->name('edit');
+            Route::put('/{divisi}', [DivisiController::class, 'update'])->middleware('permission:edit divisi')->name('update');
+            Route::delete('/{divisi}', [DivisiController::class, 'destroy'])->middleware('permission:delete divisi')->name('destroy');
+            Route::put('/{id}/restore', [DivisiController::class, 'restore'])->middleware('permission:delete divisi')->name('restore');
         });
 
         // Posisi management routes

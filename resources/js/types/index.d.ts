@@ -89,6 +89,16 @@ export interface Bidang {
     deleted_at: string | null;
 }
 
+export interface Divisi {
+    id: number;
+    nama: string;
+    deskripsi: string | null;
+    image: string | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+}
+
 export interface Produk {
     id: number;
     nama: string;

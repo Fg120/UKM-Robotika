@@ -16,8 +16,8 @@ class RoleSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Create roles and assign permissions
-        $adminRole = Role::create(['name' => 'admin']);
-        $adminRole->givePermissionTo([
+        $adminRole = Role::updateOrCreate(['name' => 'admin']);
+        $adminRole->syncPermissions([
             'view users',
             'create users',
             'edit users',
@@ -58,6 +58,11 @@ class RoleSeeder extends Seeder
             'edit bidang',
             'delete bidang',
 
+            'view divisi',
+            'create divisi',
+            'edit divisi',
+            'delete divisi',
+
             'view posisi',
             'create posisi',
             'edit posisi',
@@ -80,8 +85,8 @@ class RoleSeeder extends Seeder
             'edit settings',
         ]);
 
-        $userRole = Role::create(['name' => 'user']);
-        $userRole->givePermissionTo([
+        $userRole = Role::updateOrCreate(['name' => 'user']);
+        $userRole->syncPermissions([
             'view dashboard',
             'view profile',
             'edit profile',

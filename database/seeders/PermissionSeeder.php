@@ -65,6 +65,12 @@ class PermissionSeeder extends Seeder
             'edit bidang',
             'delete bidang',
 
+            // Divisi management
+            'view divisi',
+            'create divisi',
+            'edit divisi',
+            'delete divisi',
+
             // Posisi management
             'view posisi',
             'create posisi',

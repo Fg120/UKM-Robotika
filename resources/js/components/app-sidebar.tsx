@@ -117,6 +117,11 @@ const data = {
                     url: route('admin.bidangs.index'),
                 },
                 {
+                    icon: FolderTree,
+                    title: "Divisi",
+                    url: route('admin.divisis.index'),
+                },
+                {
                     icon: GraduationCap,
                     title: "Posisi",
                     url: route('admin.posisis.index'),

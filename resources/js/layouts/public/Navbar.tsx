@@ -46,10 +46,10 @@ export default function Navbar({ }: NavbarProps) {
                                 Home
                             </a>
                             <a
-                                href="/#about"
+                                href="/divisi"
                                 className={`text-white hover:text-blue-500 transition-colors font-medium`}
                             >
-                                Tentang
+                                Divisi
                             </a>
                             <Link
                                 href="/artikel"
