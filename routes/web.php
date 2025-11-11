@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\PosisiController;
 use App\Http\Controllers\Admin\ArtikelController;
+use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\ArtikelPublicController;
 use App\Http\Controllers\DivisiPublicController;
 use App\Http\Controllers\DashboardController;
@@ -166,6 +167,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{artikel}/edit', [ArtikelController::class, 'edit'])->middleware('permission:edit artikel')->name('edit');
             Route::put('/{artikel}', [ArtikelController::class, 'update'])->middleware('permission:edit artikel')->name('update');
             Route::delete('/{artikel}', [ArtikelController::class, 'destroy'])->middleware('permission:delete artikel')->name('destroy');
+        });
+
+        // Sponsor management routes
+        Route::prefix('sponsors')->name('sponsor.')->group(function () {
+            Route::get('/', [SponsorController::class, 'index'])->middleware('permission:view sponsor')->name('index');
+            Route::get('/create', [SponsorController::class, 'create'])->middleware('permission:create sponsor')->name('create');
+            Route::post('/', [SponsorController::class, 'store'])->middleware('permission:create sponsor')->name('store');
+            Route::get('/{sponsor}', [SponsorController::class, 'show'])->middleware('permission:view sponsor')->name('show');
+            Route::get('/{sponsor}/edit', [SponsorController::class, 'edit'])->middleware('permission:edit sponsor')->name('edit');
+            Route::put('/{sponsor}', [SponsorController::class, 'update'])->middleware('permission:edit sponsor')->name('update');
+            Route::delete('/{sponsor}', [SponsorController::class, 'destroy'])->middleware('permission:delete sponsor')->name('destroy');
+            Route::put('/{id}/restore', [SponsorController::class, 'restore'])->middleware('permission:delete sponsor')->name('restore');
         });
     });
 });

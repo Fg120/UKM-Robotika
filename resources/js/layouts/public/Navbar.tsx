@@ -39,36 +39,36 @@ export default function Navbar({ }: NavbarProps) {
                             </div>
                         </Link>
                         <div className="hidden md:flex items-center space-x-8">
-                            <a
+                            <Link
                                 href="/#home"
                                 className={`text-white hover:text-blue-500 transition-colors font-medium`}
                             >
                                 Home
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                                 href="/divisi"
                                 className={`text-white hover:text-blue-500 transition-colors font-medium`}
                             >
                                 Divisi
-                            </a>
+                            </Link>
                             <Link
                                 href="/artikel"
                                 className={`text-white hover:text-blue-500 transition-colors font-medium`}
                             >
                                 Artikel
                             </Link>
-                            <a
+                            <Link
                                 href="/#products"
                                 className={`text-white hover:text-blue-500 transition-colors font-medium`}
                             >
                                 Produk
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                                 href="/#gallery"
                                 className={`text-white hover:text-blue-500 transition-colors font-medium`}
                             >
                                 Galeri
-                            </a>
+                            </Link>
                         </div>
                         <div className="flex items-center space-x-4">
                             {auth.user ? (

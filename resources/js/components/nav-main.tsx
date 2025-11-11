@@ -18,6 +18,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
+import { Link } from "@inertiajs/react"
 
 export function NavMain({
     items,
@@ -70,43 +71,44 @@ export function NavMain({
                 {items.map(item => {
                     const isActive = activeKeys[item.title]
                     return (
-                    <Collapsible
-                        key={item.title}
-                        asChild
-                        open={isActive}
-                        // Toggle active state on user click
-                        onOpenChange={(open) => setActiveKeys(prev => ({ ...prev, [item.title]: open }))}
-                        className="group/collapsible"
-                    >
-                        <SidebarMenuItem>
-                            <CollapsibleTrigger asChild>
-                                <SidebarMenuButton tooltip={item.title} className="py-4">
-                                    {item.icon && <item.icon />}
-                                    <span className="font-medium">{item.title}</span>
-                                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                                </SidebarMenuButton>
-                            </CollapsibleTrigger>
-                            <CollapsibleContent>
-                                <SidebarMenuSub>
-                                    {item.items?.map((subItem) => {
-                                        const subPath = extractPath(subItem.url)
-                                        const isSubActive = path === subPath || path.startsWith(subPath + '/')
-                                        return (
-                                            <SidebarMenuSubItem key={subItem.title}>
-                                                <SidebarMenuSubButton asChild isActive={isSubActive} className="py-4">
-                                                    <a href={subItem.url}>
-                                                        {subItem.icon && <subItem.icon />}
-                                                        <span className="font-medium">{subItem.title}</span>
-                                                    </a>
-                                                </SidebarMenuSubButton>
-                                            </SidebarMenuSubItem>
-                                        )
-                                    })}
-                                </SidebarMenuSub>
-                            </CollapsibleContent>
-                        </SidebarMenuItem>
-                    </Collapsible>
-                )})}
+                        <Collapsible
+                            key={item.title}
+                            asChild
+                            open={isActive}
+                            // Toggle active state on user click
+                            onOpenChange={(open) => setActiveKeys(prev => ({ ...prev, [item.title]: open }))}
+                            className="group/collapsible"
+                        >
+                            <SidebarMenuItem>
+                                <CollapsibleTrigger asChild>
+                                    <SidebarMenuButton tooltip={item.title} className="py-4">
+                                        {item.icon && <item.icon />}
+                                        <span className="font-medium">{item.title}</span>
+                                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                    </SidebarMenuButton>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent>
+                                    <SidebarMenuSub>
+                                        {item.items?.map((subItem) => {
+                                            const subPath = extractPath(subItem.url)
+                                            const isSubActive = path === subPath || path.startsWith(subPath + '/')
+                                            return (
+                                                <SidebarMenuSubItem key={subItem.title}>
+                                                    <SidebarMenuSubButton asChild isActive={isSubActive} className="py-4">
+                                                        <Link href={subItem.url}>
+                                                            {subItem.icon && <subItem.icon />}
+                                                            <span className="font-medium">{subItem.title}</span>
+                                                        </Link>
+                                                    </SidebarMenuSubButton>
+                                                </SidebarMenuSubItem>
+                                            )
+                                        })}
+                                    </SidebarMenuSub>
+                                </CollapsibleContent>
+                            </SidebarMenuItem>
+                        </Collapsible>
+                    )
+                })}
             </SidebarMenu>
         </SidebarGroup>
     )

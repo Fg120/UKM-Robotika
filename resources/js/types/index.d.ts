@@ -3,6 +3,7 @@ import { LucideIcon } from 'lucide-react';
 
 export interface Auth {
     user: User;
+    permissions: string[];
 }
 
 export interface BreadcrumbItem {
@@ -94,6 +95,17 @@ export interface Divisi {
     nama: string;
     deskripsi: string | null;
     image: string | null;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+}
+
+export interface Sponsor {
+    id: number;
+    judul: string;
+    deskripsi: string | null;
+    foto: string | null;
+    url: string | null;
     created_at: string;
     updated_at: string;
     deleted_at: string | null;

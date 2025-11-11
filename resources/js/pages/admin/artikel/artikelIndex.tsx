@@ -94,60 +94,68 @@ export default function ArtikelIndex({ artikels, kategoris, tags, filters }: Pro
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {artikels.data.map((artikel) => (
-                                    <TableRow key={artikel.id}>
-                                        <TableCell>
-                                            {artikel.image ? (
-                                                <img src={`/storage/${artikel.image}`} alt={artikel.judul} className="h-12 w-16 rounded object-cover border" />
-                                            ) : (
-                                                <div className="h-12 w-16 rounded border flex items-center justify-center text-gray-400">
-                                                    <ImageIcon className="h-5 w-5" />
-                                                </div>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="font-medium">{artikel.judul}</div>
-                                            {artikel.excerpt && (
-                                                <div className="text-sm text-gray-500 truncate max-w-xs">{artikel.excerpt}</div>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>{artikel.kategori?.nama ?? '-'}</TableCell>
-                                        <TableCell>
-                                            <div className="flex flex-wrap gap-1">
-                                                {artikel.tags?.slice(0, 2).map((tag) => (
-                                                    <Badge key={tag.id} variant="secondary" className="text-xs">{tag.nama}</Badge>
-                                                ))}
-                                                {(artikel.tags?.length ?? 0) > 2 && (
-                                                    <Badge variant="secondary" className="text-xs">+{(artikel.tags?.length ?? 0) - 2}</Badge>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            {artikel.published ? (
-                                                <Badge className="bg-green-500"><CheckCircle className="w-3 h-3 mr-1" />Published</Badge>
-                                            ) : (
-                                                <Badge variant="secondary"><XCircle className="w-3 h-3 mr-1" />Draft</Badge>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="flex items-center gap-1">
-                                                <Eye className="w-4 h-4 text-gray-400" />
-                                                {artikel.views}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{new Date(artikel.created_at).toLocaleDateString('id-ID')}</TableCell>
-                                        <TableCell className="text-right">
-                                            <div className="flex justify-end gap-2">
-                                                <Button variant="outline" size="sm" onClick={() => router.visit(`/admin/artikel/${artikel.id}/edit`)}>
-                                                    <Pencil className="w-4 h-4" />
-                                                </Button>
-                                                <Button variant="outline" size="sm" onClick={() => { setSelectedArtikel(artikel); setIsDeleteOpen(true); }}>
-                                                    <Trash2 className="w-4 h-4" />
-                                                </Button>
-                                            </div>
+                                {artikels.data.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                                            Belum ada data artikel
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ) : (
+                                    artikels.data.map((artikel) => (
+                                        <TableRow key={artikel.id}>
+                                            <TableCell>
+                                                {artikel.image ? (
+                                                    <img src={`/storage/${artikel.image}`} alt={artikel.judul} className="h-12 w-16 rounded object-cover border" />
+                                                ) : (
+                                                    <div className="h-12 w-16 rounded border flex items-center justify-center text-gray-400">
+                                                        <ImageIcon className="h-5 w-5" />
+                                                    </div>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="font-medium">{artikel.judul}</div>
+                                                {artikel.excerpt && (
+                                                    <div className="text-sm text-gray-500 truncate max-w-xs">{artikel.excerpt}</div>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>{artikel.kategori?.nama ?? '-'}</TableCell>
+                                            <TableCell>
+                                                <div className="flex flex-wrap gap-1">
+                                                    {artikel.tags?.slice(0, 2).map((tag) => (
+                                                        <Badge key={tag.id} variant="secondary" className="text-xs">{tag.nama}</Badge>
+                                                    ))}
+                                                    {(artikel.tags?.length ?? 0) > 2 && (
+                                                        <Badge variant="secondary" className="text-xs">+{(artikel.tags?.length ?? 0) - 2}</Badge>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                {artikel.published ? (
+                                                    <Badge className="bg-green-500"><CheckCircle className="w-3 h-3 mr-1" />Published</Badge>
+                                                ) : (
+                                                    <Badge variant="secondary"><XCircle className="w-3 h-3 mr-1" />Draft</Badge>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center gap-1">
+                                                    <Eye className="w-4 h-4 text-gray-400" />
+                                                    {artikel.views}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{new Date(artikel.created_at).toLocaleDateString('id-ID')}</TableCell>
+                                            <TableCell className="text-right">
+                                                <div className="flex justify-end gap-2">
+                                                    <Button variant="outline" size="sm" onClick={() => router.visit(`/admin/artikel/${artikel.id}/edit`)}>
+                                                        <Pencil className="w-4 h-4" />
+                                                    </Button>
+                                                    <Button variant="outline" size="sm" onClick={() => { setSelectedArtikel(artikel); setIsDeleteOpen(true); }}>
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </div>

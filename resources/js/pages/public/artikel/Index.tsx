@@ -106,9 +106,9 @@ export default function ArtikelIndex({ artikels, kategoris, tags, filters }: Pro
                                     {artikel.image ? (
                                         <div className="aspect-video overflow-hidden">
                                             <img
-                                                src={artikel.image}
+                                                src={`/storage/${artikel.image}`}
                                                 alt={artikel.judul}
-                                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                                className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
                                             />
                                         </div>
                                     ) : (

@@ -29,9 +29,9 @@ export default function Footer() {
                         <h3 className="font-semibold mb-4 text-white">Navigasi</h3>
                         <ul className="space-y-2 text-sm text-gray-300">
                             <li><Link href="/" className="hover:text-blue-400 transition-colors">Home</Link></li>
-                            <li><a href="/#about" className="hover:text-blue-400 transition-colors">Tentang</a></li>
+                            <li><Link href="/#about" className="hover:text-blue-400 transition-colors">Tentang</Link></li>
                             <li><Link href="/artikel" className="hover:text-blue-400 transition-colors">Artikel</Link></li>
-                            <li><a href="/#products" className="hover:text-blue-400 transition-colors">Produk</a></li>
+                            <li><Link href="/#products" className="hover:text-blue-400 transition-colors">Produk</Link></li>
                         </ul>
                     </div>
                     <div>
@@ -45,15 +45,15 @@ export default function Footer() {
                     <div>
                         <h3 className="font-semibold mb-4 text-white">Media Sosial</h3>
                         <div className="flex gap-4">
-                            <a href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <Link href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
                                 <span className="text-sm font-semibold">IG</span>
-                            </a>
-                            <a href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-red-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            </Link>
+                            <Link href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-red-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
                                 <span className="text-sm font-semibold">YT</span>
-                            </a>
-                            <a href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-400 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            </Link>
+                            <Link href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-400 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
                                 <span className="text-sm font-semibold">TW</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

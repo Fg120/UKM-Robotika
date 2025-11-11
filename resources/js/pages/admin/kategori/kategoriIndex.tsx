@@ -166,40 +166,48 @@ export default function KategoriIndex({ kategoris, filters }: Props) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {kategoris.data.map((kategori) => (
-                  <TableRow key={kategori.id}>
-                    <TableCell>{kategori.id}</TableCell>
-                    <TableCell className="font-medium">{kategori.nama}</TableCell>
-                    <TableCell>
-                      {kategori.deskripsi ? (
-                        <span className="text-sm text-gray-600 line-clamp-2">
-                          {kategori.deskripsi}
-                        </span>
-                      ) : (
-                        <span className="text-gray-400 italic">Tidak ada deskripsi</span>
-                      )}
-                    </TableCell>
-                    <TableCell>{new Date(kategori.created_at).toLocaleDateString('id-ID')}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleEdit(kategori)}
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(kategori)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
+                {kategoris.data.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center py-8 text-gray-500">
+                      Belum ada data kategori
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  kategoris.data.map((kategori) => (
+                    <TableRow key={kategori.id}>
+                      <TableCell>{kategori.id}</TableCell>
+                      <TableCell className="font-medium">{kategori.nama}</TableCell>
+                      <TableCell>
+                        {kategori.deskripsi ? (
+                          <span className="text-sm text-gray-600 line-clamp-2">
+                            {kategori.deskripsi}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 italic">Tidak ada deskripsi</span>
+                        )}
+                      </TableCell>
+                      <TableCell>{new Date(kategori.created_at).toLocaleDateString('id-ID')}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(kategori)}
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(kategori)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
@@ -211,13 +219,12 @@ export default function KategoriIndex({ kategoris, filters }: Props) {
                 {kategoris.links.map((link, index) => (
                   <button
                     key={index}
-                    className={`px-3 py-2 text-sm rounded ${
-                      link.active
+                    className={`px-3 py-2 text-sm rounded ${link.active
                         ? 'bg-blue-600 text-white'
                         : link.url
-                        ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    }`}
+                          ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                          : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      }`}
                     onClick={() => link.url && (window.location.href = link.url)}
                     disabled={!link.url}
                     dangerouslySetInnerHTML={{ __html: link.label }}

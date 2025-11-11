@@ -122,7 +122,7 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                                 delay={100}
                                 animateBy="words"
                                 direction="top"
-                                className="inline-block"
+                                className="inline-block text-black"
                             />
                         </h2>
                         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -178,7 +178,7 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                                     delay={100}
                                     animateBy="words"
                                     direction="top"
-                                    className="inline-block"
+                                    className="inline-block text-black"
                                 />
                             </h2>
                             <p className="text-xl text-muted-foreground">
@@ -224,7 +224,7 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                                     delay={100}
                                     animateBy="words"
                                     direction="top"
-                                    className="inline-block"
+                                    className="inline-block text-black"
                                 />
                             </h2>
                             <p className="text-xl text-muted-foreground">
@@ -247,7 +247,7 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                                             <img
                                                 src={artikel.image}
                                                 alt={artikel.judul}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                         </div>
@@ -303,7 +303,7 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                                     delay={100}
                                     animateBy="words"
                                     direction="top"
-                                    className="inline-block"
+                                    className="inline-block text-black"
                                 />
                             </h2>
                             <p className="text-xl text-muted-foreground">
@@ -363,7 +363,7 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                                     delay={100}
                                     animateBy="words"
                                     direction="top"
-                                    className="inline-block"
+                                    className="inline-block text-black"
                                 />
                             </h2>
                             <p className="text-xl text-muted-foreground">

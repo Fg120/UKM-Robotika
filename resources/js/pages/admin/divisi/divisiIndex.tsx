@@ -146,39 +146,47 @@ export default function DivisiIndex({ divisis, filters }: Props) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {divisis.data.map((divisi) => (
-                                    <TableRow key={divisi.id}>
-                                        <TableCell>{divisi.id}</TableCell>
-                                        <TableCell>
-                                            {divisi.image ? (
-                                                <img src={`/storage/${divisi.image}`} alt={divisi.nama} className="h-10 w-10 rounded object-cover border" />
-                                            ) : (
-                                                <div className="h-10 w-10 rounded border flex items-center justify-center text-gray-400">
-                                                    <ImageIcon className="h-5 w-5" />
-                                                </div>
-                                            )}
-                                        </TableCell>
-                                        <TableCell className="font-medium">{divisi.nama}</TableCell>
-                                        <TableCell>
-                                            {divisi.deskripsi ? (
-                                                <span className="text-sm text-gray-600 line-clamp-2">{divisi.deskripsi}</span>
-                                            ) : (
-                                                <span className="text-gray-400 italic">Tidak ada deskripsi</span>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>{new Date(divisi.created_at).toLocaleDateString('id-ID')}</TableCell>
-                                        <TableCell className="text-right">
-                                            <div className="flex justify-end gap-2">
-                                                <Button variant="outline" size="sm" onClick={() => handleEdit(divisi)}>
-                                                    <Pencil className="w-4 h-4" />
-                                                </Button>
-                                                <Button variant="outline" size="sm" onClick={() => handleDelete(divisi)}>
-                                                    <Trash2 className="w-4 h-4" />
-                                                </Button>
-                                            </div>
+                                {divisis.data.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                                            Belum ada data divisi
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ) : (
+                                    divisis.data.map((divisi) => (
+                                        <TableRow key={divisi.id}>
+                                            <TableCell>{divisi.id}</TableCell>
+                                            <TableCell>
+                                                {divisi.image ? (
+                                                    <img src={`/storage/${divisi.image}`} alt={divisi.nama} className="h-10 w-10 rounded object-cover border" />
+                                                ) : (
+                                                    <div className="h-10 w-10 rounded border flex items-center justify-center text-gray-400">
+                                                        <ImageIcon className="h-5 w-5" />
+                                                    </div>
+                                                )}
+                                            </TableCell>
+                                            <TableCell className="font-medium">{divisi.nama}</TableCell>
+                                            <TableCell>
+                                                {divisi.deskripsi ? (
+                                                    <span className="text-sm text-gray-600 line-clamp-2">{divisi.deskripsi}</span>
+                                                ) : (
+                                                    <span className="text-gray-400 italic">Tidak ada deskripsi</span>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>{new Date(divisi.created_at).toLocaleDateString('id-ID')}</TableCell>
+                                            <TableCell className="text-right">
+                                                <div className="flex justify-end gap-2">
+                                                    <Button variant="outline" size="sm" onClick={() => handleEdit(divisi)}>
+                                                        <Pencil className="w-4 h-4" />
+                                                    </Button>
+                                                    <Button variant="outline" size="sm" onClick={() => handleDelete(divisi)}>
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </div>

@@ -43,8 +43,8 @@ export default function UserIndex({ users, filters }: Props) {
   // Watch for search input changes
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      router.get('/admin/users', { 
-        search: search || undefined, 
+      router.get('/admin/users', {
+        search: search || undefined,
         order_by: sortBy || undefined,
         sort_direction: sortDirection,
         page: 1 // Reset to first page when searching
@@ -56,16 +56,16 @@ export default function UserIndex({ users, filters }: Props) {
 
   const handleSortChange = (column: string) => {
     let newDirection: 'asc' | 'desc' = 'asc';
-    
+
     if (sortBy === column) {
       newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     }
-    
+
     setSortBy(column);
     setSortDirection(newDirection);
-    
-    router.get('/admin/users', { 
-      search: search || undefined, 
+
+    router.get('/admin/users', {
+      search: search || undefined,
       order_by: column,
       sort_direction: newDirection,
       page: 1 // Reset to first page when sorting
@@ -74,7 +74,7 @@ export default function UserIndex({ users, filters }: Props) {
 
   const getSortIcon = (column: string) => {
     if (sortBy !== column) return <ArrowUpDown className="ml-2 h-4 w-4" />;
-    return sortDirection === 'asc' 
+    return sortDirection === 'asc'
       ? <ArrowUp className="ml-2 h-4 w-4" />
       : <ArrowDown className="ml-2 h-4 w-4" />;
   };
@@ -92,12 +92,12 @@ export default function UserIndex({ users, filters }: Props) {
   return (
     <AppLayout>
       <Head title="Manajemen Pengguna" />
-      
+
       <Card>
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">Manajemen Pengguna</h1>
-            
+
             <Button onClick={() => setIsCreateOpen(true)}>
               <Plus className="w-4 h-4 mr-2" />
               Tambah Pengguna
@@ -114,8 +114,8 @@ export default function UserIndex({ users, filters }: Props) {
                 className="max-w-sm"
               />
               {search && (
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
                   onClick={() => setSearch('')}
                   title="Clear search"
@@ -132,8 +132,8 @@ export default function UserIndex({ users, filters }: Props) {
               <TableHeader>
                 <TableRow>
                   <TableHead>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="h-auto p-0 font-semibold"
                       onClick={() => handleSortChange('id')}
                     >
@@ -142,8 +142,8 @@ export default function UserIndex({ users, filters }: Props) {
                     </Button>
                   </TableHead>
                   <TableHead>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="h-auto p-0 font-semibold"
                       onClick={() => handleSortChange('name')}
                     >
@@ -152,8 +152,8 @@ export default function UserIndex({ users, filters }: Props) {
                     </Button>
                   </TableHead>
                   <TableHead>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="h-auto p-0 font-semibold"
                       onClick={() => handleSortChange('email')}
                     >
@@ -165,44 +165,52 @@ export default function UserIndex({ users, filters }: Props) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {users.data.map((user: User) => (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.id}</TableCell>
-                    <TableCell className="font-medium">{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleEdit(user)}
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(user)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
+                {users.data.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={4} className="text-center py-8 text-gray-500">
+                      Belum ada data pengguna
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  users.data.map((user: User) => (
+                    <TableRow key={user.id}>
+                      <TableCell>{user.id}</TableCell>
+                      <TableCell className="font-medium">{user.name}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(user)}
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(user)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
 
           {/* Dialogs */}
-          <UserCreate 
-            isOpen={isCreateOpen} 
-            onClose={() => setIsCreateOpen(false)} 
+          <UserCreate
+            isOpen={isCreateOpen}
+            onClose={() => setIsCreateOpen(false)}
           />
-          
+
           {selectedUser && (
-            <UserEdit 
-              isOpen={isEditOpen} 
+            <UserEdit
+              isOpen={isEditOpen}
               onClose={() => {
                 setIsEditOpen(false);
                 setSelectedUser(null);
@@ -210,10 +218,10 @@ export default function UserIndex({ users, filters }: Props) {
               userId={selectedUser.id}
             />
           )}
-          
+
           {selectedUser && (
-            <UserDelete 
-              isOpen={isDeleteOpen} 
+            <UserDelete
+              isOpen={isDeleteOpen}
               onClose={() => {
                 setIsDeleteOpen(false);
                 setSelectedUser(null);

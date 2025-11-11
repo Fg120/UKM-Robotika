@@ -131,33 +131,41 @@ export default function GaleriIndex({ galeris, filters }: Props) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {galeris.data.map((galeri) => (
-                  <TableRow key={galeri.id}>
-                    <TableCell>{galeri.id}</TableCell>
-                    <TableCell>
-                      {galeri.image ? (
-                        <img src={`/storage/${galeri.image}`} alt={galeri.judul} className="h-10 w-10 rounded object-cover border" />
-                      ) : (
-                        <div className="h-10 w-10 rounded border flex items-center justify-center text-gray-400">
-                          <ImageIcon className="h-5 w-5" />
-                        </div>
-                      )}
-                    </TableCell>
-                    <TableCell className="font-medium">{galeri.judul}</TableCell>
-                    <TableCell>{new Date(galeri.tanggal).toLocaleDateString('id-ID')}</TableCell>
-                    <TableCell>{new Date(galeri.created_at).toLocaleDateString('id-ID')}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button variant="outline" size="sm" onClick={() => handleEdit(galeri)}>
-                          <Pencil className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="sm" onClick={() => handleDelete(galeri)}>
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
+                {galeris.data.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                      Belum ada data galeri
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  galeris.data.map((galeri) => (
+                    <TableRow key={galeri.id}>
+                      <TableCell>{galeri.id}</TableCell>
+                      <TableCell>
+                        {galeri.image ? (
+                          <img src={`/storage/${galeri.image}`} alt={galeri.judul} className="h-10 w-10 rounded object-cover border" />
+                        ) : (
+                          <div className="h-10 w-10 rounded border flex items-center justify-center text-gray-400">
+                            <ImageIcon className="h-5 w-5" />
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell className="font-medium">{galeri.judul}</TableCell>
+                      <TableCell>{new Date(galeri.tanggal).toLocaleDateString('id-ID')}</TableCell>
+                      <TableCell>{new Date(galeri.created_at).toLocaleDateString('id-ID')}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button variant="outline" size="sm" onClick={() => handleEdit(galeri)}>
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => handleDelete(galeri)}>
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
@@ -168,13 +176,12 @@ export default function GaleriIndex({ galeris, filters }: Props) {
                 {galeris.links.map((link: any, index: number) => (
                   <button
                     key={index}
-                    className={`px-3 py-2 text-sm rounded ${
-                      link.active
+                    className={`px-3 py-2 text-sm rounded ${link.active
                         ? 'bg-blue-600 text-white'
                         : link.url
-                        ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    }`}
+                          ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                          : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      }`}
                     onClick={() => link.url && (window.location.href = link.url)}
                     disabled={!link.url}
                     dangerouslySetInnerHTML={{ __html: link.label }}

@@ -11,14 +11,14 @@ import {
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '@/layouts/Layout';
-import { usePage } from '@inertiajs/react';
-import { 
-    ChevronDown, 
+import { Link, usePage } from '@inertiajs/react';
+import {
+    ChevronDown,
     ChevronLeft,
     ChevronRight,
-    Home, 
-    LogOut, 
-    Settings, 
+    Home,
+    LogOut,
+    Settings,
     User
 } from 'lucide-react';
 import { useEffect } from 'react';
@@ -45,9 +45,9 @@ const navigation = [
     },
 ];
 
-function SidebarContent({ isCollapsed = false, onToggleCollapse }: { 
-    isCollapsed?: boolean; 
-    onToggleCollapse?: () => void; 
+function SidebarContent({ isCollapsed = false, onToggleCollapse }: {
+    isCollapsed?: boolean;
+    onToggleCollapse?: () => void;
 }) {
     const { url } = usePage();
 
@@ -81,9 +81,9 @@ function SidebarContent({ isCollapsed = false, onToggleCollapse }: {
                     const Icon = item.icon;
                     // Check if current path matches navigation item, ignoring query parameters
                     const currentPath = url.split('?')[0];
-                    const isActive = currentPath === item.href || 
+                    const isActive = currentPath === item.href ||
                         (currentPath.startsWith(item.href + '/') && item.href !== '/admin');
-                    
+
                     return (
                         <Button
                             key={item.href}
@@ -94,10 +94,10 @@ function SidebarContent({ isCollapsed = false, onToggleCollapse }: {
                             )}
                             asChild
                         >
-                            <a href={item.href}>
+                            <Link href={item.href}>
                                 <Icon className="h-4 w-4" />
                                 {!isCollapsed && <span className='font-bold'>{item.title}</span>}
-                            </a>
+                            </Link>
                         </Button>
                     );
                 })}
@@ -173,9 +173,9 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
                 isCollapsed ? "lg:w-16" : "lg:w-64",
                 className
             )}>
-                <SidebarContent 
-                    isCollapsed={isCollapsed} 
-                    onToggleCollapse={toggleCollapse} 
+                <SidebarContent
+                    isCollapsed={isCollapsed}
+                    onToggleCollapse={toggleCollapse}
                 />
             </div>
 

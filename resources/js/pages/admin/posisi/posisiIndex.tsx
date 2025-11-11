@@ -175,32 +175,40 @@ export default function PosisiIndex({ posisis, filters }: Props) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {posisis.data.map((posisi) => (
-                  <TableRow key={posisi.id}>
-                    <TableCell>{posisi.id}</TableCell>
-                    <TableCell className="font-medium">{posisi.nama}</TableCell>
-                    <TableCell className="font-medium">{posisi.urutan}</TableCell>
-                    <TableCell>{new Date(posisi.created_at).toLocaleDateString('id-ID')}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleEdit(posisi)}
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(posisi)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
+                {posisis.data.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center py-8 text-gray-500">
+                      Belum ada data posisi
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  posisis.data.map((posisi) => (
+                    <TableRow key={posisi.id}>
+                      <TableCell>{posisi.id}</TableCell>
+                      <TableCell className="font-medium">{posisi.nama}</TableCell>
+                      <TableCell className="font-medium">{posisi.urutan}</TableCell>
+                      <TableCell>{new Date(posisi.created_at).toLocaleDateString('id-ID')}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(posisi)}
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(posisi)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>

@@ -51,12 +51,21 @@ class HandleInertiaRequests extends Middleware
             $flash['id'] = (string) Str::uuid();
         }
 
+        $user = $request->user();
+        $permissions = [];
+
+        if ($user) {
+            // Get all permissions for the user (both direct and through roles)
+            $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+        }
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
+                'permissions' => $permissions,
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'flash' => $flash,

@@ -78,6 +78,11 @@ class RoleSeeder extends Seeder
             'edit artikel',
             'delete artikel',
 
+            'view sponsor',
+            'create sponsor',
+            'edit sponsor',
+            'delete sponsor',
+
             'view dashboard',
             'view profile',
             'edit profile',

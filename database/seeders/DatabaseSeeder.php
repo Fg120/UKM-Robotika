@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             TagSeeder::class,
             BidangSeeder::class,
             DivisiSeeder::class,
+            SponsorSeeder::class,
         ]);
 
         User::factory()->create([

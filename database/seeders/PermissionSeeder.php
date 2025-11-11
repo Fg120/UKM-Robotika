@@ -89,6 +89,12 @@ class PermissionSeeder extends Seeder
             'edit artikel',
             'delete artikel',
 
+            // Sponsor management
+            'view sponsor',
+            'create sponsor',
+            'edit sponsor',
+            'delete sponsor',
+
             // Dashboard
             'view dashboard',
 

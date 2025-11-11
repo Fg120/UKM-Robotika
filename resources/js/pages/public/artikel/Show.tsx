@@ -44,44 +44,44 @@ export default function ArtikelShow({ artikel, relatedArtikels }: Props) {
             </div>
 
             {/* Article Content */}
-            <article className="container mx-auto px-4 py-8 max-w-4xl">
+            <article className="container mx-auto px-4 pt-24 max-w-4xl">
                 {/* Hero Image */}
                 {artikel.image && (
-                    <div className="aspect-video w-full overflow-hidden rounded-lg mb-8 shadow-lg">
+                    <div className="aspect-video w-full overflow-hidden rounded-lg mb-8 shadow-lg bg-muted p-1">
                         <img
-                            src={artikel.image}
+                            src={`/storage/${artikel.image}`}
                             alt={artikel.judul}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                         />
                     </div>
                 )}
 
                 {/* Article Header */}
-                <div className="mb-8">
+                <div className="my-8">
                     <div className="flex items-center gap-2 mb-4 flex-wrap">
                         {artikel.kategori && (
-                            <Badge variant="secondary" className="text-sm">
+                            <Badge variant="secondary" className="text-sm text-black">
                                 {artikel.kategori.nama}
                             </Badge>
                         )}
                         {artikel.tags?.map(tag => (
-                            <Badge key={tag.id} variant="outline" className="text-sm">
+                            <Badge key={tag.id} variant="outline" className="text-sm text-black">
                                 {tag.nama}
                             </Badge>
                         ))}
                     </div>
 
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight text-black">
                         {artikel.judul}
                     </h1>
 
                     {artikel.excerpt && (
-                        <p className="text-xl text-muted-foreground mb-6">
+                        <p className="text-xl text-muted-foreground mb-6 text-black">
                             {artikel.excerpt}
                         </p>
                     )}
 
-                    <div className="flex items-center gap-6 text-muted-foreground">
+                    <div className="flex items-center gap-6 text-muted-foreground bg-slate-700 p-4 rounded-full w-fit flex-wrap">
                         {artikel.user && (
                             <div className="flex items-center gap-2">
                                 <User className="w-5 h-5" />
@@ -173,7 +173,7 @@ export default function ArtikelShow({ artikel, relatedArtikels }: Props) {
                                         {related.image ? (
                                             <div className="aspect-video overflow-hidden">
                                                 <img
-                                                    src={related.image}
+                                                    src={`/storage/${related.image}`}
                                                     alt={related.judul}
                                                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                                 />

@@ -107,44 +107,52 @@ export default function UsersIndex() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {users.map((user) => (
-                                    <TableRow key={user.id}>
-                                        <TableCell className="font-medium">
-                                            {user.name}
-                                        </TableCell>
-                                        <TableCell>{user.email}</TableCell>
-                                        <TableCell>
-                                            <Badge variant={user.role === 'Admin' ? 'default' : 'secondary'}>
-                                                {user.role}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge variant={user.status === 'Active' ? 'default' : 'destructive'}>
-                                                {user.status}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>{user.created_at}</TableCell>
-                                        <TableCell>
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" className="h-8 w-8 p-0">
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuItem>
-                                                        <Edit className="mr-2 h-4 w-4" />
-                                                        Edit
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem className="text-destructive">
-                                                        <Trash2 className="mr-2 h-4 w-4" />
-                                                        Delete
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
+                                {users.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                                            Belum ada data pengguna
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ) : (
+                                    users.map((user) => (
+                                        <TableRow key={user.id}>
+                                            <TableCell className="font-medium">
+                                                {user.name}
+                                            </TableCell>
+                                            <TableCell>{user.email}</TableCell>
+                                            <TableCell>
+                                                <Badge variant={user.role === 'Admin' ? 'default' : 'secondary'}>
+                                                    {user.role}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Badge variant={user.status === 'Active' ? 'default' : 'destructive'}>
+                                                    {user.status}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell>{user.created_at}</TableCell>
+                                            <TableCell>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuItem>
+                                                            <Edit className="mr-2 h-4 w-4" />
+                                                            Edit
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem className="text-destructive">
+                                                            <Trash2 className="mr-2 h-4 w-4" />
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </CardContent>

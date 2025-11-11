@@ -117,32 +117,40 @@ export default function PengurusIndex({ penguruses, bidangs, posisis, filters }:
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {penguruses.data.map((p) => (
-                      <TableRow key={p.id}>
-                        <TableCell>{p.id}</TableCell>
-                        <TableCell>{p.image ? (<img src={`/storage/${p.image}`} alt={p.nama} className="h-10 w-10 rounded object-cover border" />) : (<div className="h-10 w-10 rounded border flex items-center justify-center text-gray-400"><ImageIcon className="h-5 w-5" /></div>)}</TableCell>
-                        <TableCell className="font-medium">{p.nama}</TableCell>
-                        <TableCell>{p.posisi?.nama ?? '-'}</TableCell>
-                        <TableCell>{p.bidang?.nama ?? '-'}</TableCell>
-                        <TableCell>
-                          <div className="flex gap-2">
-                            {p.sosmeds?.map((s, i) => {
-                              const Icon = ({ Facebook, Instagram, Twitter, Linkedin, Youtube, Globe, Link: LinkIcon } as any)[s.icon] || LinkIcon;
-                              return <a key={i} href={s.url} target="_blank" className="text-gray-600 hover:text-blue-600"><Icon className="w-4 h-4" /></a>
-                            })}
-                          </div>
+                    {penguruses.data.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={showCUD ? 8 : 7} className="text-center py-8 text-gray-500">
+                          Belum ada data pengurus
                         </TableCell>
-                        <TableCell>{new Date(p.created_at).toLocaleDateString('id-ID')}</TableCell>
-                        {showCUD && (
-                          <TableCell className="text-right">
-                            <div className="flex justify-end gap-2">
-                              <Button variant="outline" size="sm" onClick={() => { setSelectedPengurus(p); setIsEditOpen(true); }}><Pencil className="w-4 h-4" /></Button>
-                              <Button variant="outline" size="sm" onClick={() => { setSelectedPengurus(p); setIsDeleteOpen(true); }}><Trash2 className="w-4 h-4" /></Button>
+                      </TableRow>
+                    ) : (
+                      penguruses.data.map((p) => (
+                        <TableRow key={p.id}>
+                          <TableCell>{p.id}</TableCell>
+                          <TableCell>{p.image ? (<img src={`/storage/${p.image}`} alt={p.nama} className="h-10 w-10 rounded object-cover border" />) : (<div className="h-10 w-10 rounded border flex items-center justify-center text-gray-400"><ImageIcon className="h-5 w-5" /></div>)}</TableCell>
+                          <TableCell className="font-medium">{p.nama}</TableCell>
+                          <TableCell>{p.posisi?.nama ?? '-'}</TableCell>
+                          <TableCell>{p.bidang?.nama ?? '-'}</TableCell>
+                          <TableCell>
+                            <div className="flex gap-2">
+                              {p.sosmeds?.map((s, i) => {
+                                const Icon = ({ Facebook, Instagram, Twitter, Linkedin, Youtube, Globe, Link: LinkIcon } as any)[s.icon] || LinkIcon;
+                                return <a key={i} href={s.url} target="_blank" className="text-gray-600 hover:text-blue-600"><Icon className="w-4 h-4" /></a>
+                              })}
                             </div>
                           </TableCell>
-                        )}
-                      </TableRow>
-                    ))}
+                          <TableCell>{new Date(p.created_at).toLocaleDateString('id-ID')}</TableCell>
+                          {showCUD && (
+                            <TableCell className="text-right">
+                              <div className="flex justify-end gap-2">
+                                <Button variant="outline" size="sm" onClick={() => { setSelectedPengurus(p); setIsEditOpen(true); }}><Pencil className="w-4 h-4" /></Button>
+                                <Button variant="outline" size="sm" onClick={() => { setSelectedPengurus(p); setIsDeleteOpen(true); }}><Trash2 className="w-4 h-4" /></Button>
+                              </div>
+                            </TableCell>
+                          )}
+                        </TableRow>
+                      ))
+                    )}
                   </TableBody>
                 </Table>
               </div>
