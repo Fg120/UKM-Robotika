@@ -65,12 +65,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     // Build navigation menu based on permissions
     const navMain = [];
 
-    // Dashboard - accessible to all authenticated users
+    // Dashboard - accessible to all authenticated users (single item, no dropdown)
     navMain.push({
         title: "Dashboard",
         url: route('dashboard'),
         icon: LayoutDashboard,
-        items: [],
     });
 
     // Master Data section
