@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import Silk from '@/components/Silk';
-import { Instagram, Linkedin, Music } from 'lucide-react';
+import { Instagram, Linkedin, Music, Github } from 'lucide-react';
 
 export default function Footer() {
     return (
@@ -31,8 +31,11 @@ export default function Footer() {
                         <ul className="space-y-2 text-sm text-gray-300">
                             <li><Link href="/" className="hover:text-blue-400 transition-colors">Home</Link></li>
                             <li><Link href="/#about" className="hover:text-blue-400 transition-colors">Tentang</Link></li>
+                            <li><Link href="/divisi" className="hover:text-blue-400 transition-colors">Divisi</Link></li>
+                            <li><Link href="/pengurus" className="hover:text-blue-400 transition-colors">Pengurus</Link></li>
                             <li><Link href="/artikel" className="hover:text-blue-400 transition-colors">Artikel</Link></li>
-                            <li><Link href="/#products" className="hover:text-blue-400 transition-colors">Produk</Link></li>
+                            <li><Link href="/produk" className="hover:text-blue-400 transition-colors">Produk</Link></li>
+                            <li><Link href="/galeri" className="hover:text-blue-400 transition-colors">Galeri</Link></li>
                         </ul>
                     </div>
                     <div>
@@ -60,6 +63,29 @@ export default function Footer() {
                 </div>
                 <div className="border-t border-white/10 pt-8 text-center text-sm text-gray-300">
                     <p>&copy; {new Date().getFullYear()} UKM Robotika. All rights reserved.</p>
+                    <div className="mt-8 pt-8 border-t border-white/5 flex flex-col items-center justify-center gap-4">
+                        <p className="text-white text-sm">Website ini dibuat secara sukarela oleh Anwar Ibrahim Ahmad</p>
+                        <div className="flex items-center gap-4">
+                            <a
+                                href="https://github.com/fg120"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 hover:bg-white/10 border border-white/10 transition-all duration-300 group"
+                            >
+                                <Github className="w-4 h-4 text-white group-hover:text-white transition-colors" />
+                                <span className="text-xs text-white group-hover:text-white transition-colors">Github</span>
+                            </a>
+                            <a
+                                href="https://www.instagram.com/thelazyweek"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 hover:bg-white/10 border border-white/10 transition-all duration-300 group"
+                            >
+                                <Instagram className="w-4 h-4 text-white group-hover:text-pink-400 transition-colors" />
+                                <span className="text-xs text-white group-hover:text-white transition-colors">Instagram</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
