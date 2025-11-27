@@ -249,7 +249,7 @@ export default function SponsorIndex({ sponsors, filters }: Props) {
                         }}
                     />
                     <SponsorDelete
-                        sponsorId={selectedSponsor.id}
+                        sponsor={selectedSponsor}
                         open={isDeleteOpen}
                         onClose={() => {
                             setIsDeleteOpen(false);

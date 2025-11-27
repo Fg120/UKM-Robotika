@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { router } from '@inertiajs/react';
 import {
     Dialog,
@@ -8,44 +8,26 @@ import {
     DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Sponsor } from '@/types';
 
 interface SponsorDeleteProps {
-    sponsorId: number;
+    sponsor: Sponsor | null;
     open: boolean;
     onClose: () => void;
 }
 
-interface Sponsor {
-    id: number;
-    judul: string;
-    deskripsi?: string;
-    foto?: string;
-}
-
 export default function SponsorDelete({
-    sponsorId,
+    sponsor,
     open,
     onClose,
 }: SponsorDeleteProps) {
-    const [sponsor, setSponsor] = useState<Sponsor | null>(null);
-    const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
 
-    useEffect(() => {
-        if (open && sponsorId) {
-            fetch(route('admin.sponsor.show', sponsorId))
-                .then(res => res.json())
-                .then(data => {
-                    setSponsor(data.sponsor);
-                    setLoading(false);
-                })
-                .catch(() => setLoading(false));
-        }
-    }, [open, sponsorId]);
-
     const handleDelete = () => {
+        if (!sponsor) return;
+
         setDeleting(true);
-        router.delete(route('admin.sponsor.destroy', sponsorId), {
+        router.delete(route('admin.sponsor.destroy', sponsor.id), {
             onSuccess: () => {
                 setDeleting(false);
                 onClose();
@@ -66,11 +48,7 @@ export default function SponsorDelete({
                     </DialogDescription>
                 </DialogHeader>
 
-                {loading ? (
-                    <div className="text-center py-8">
-                        <p className="text-gray-600">Memuat data...</p>
-                    </div>
-                ) : sponsor ? (
+                {sponsor ? (
                     <div className="space-y-4">
                         {/* Preview */}
                         <div className="bg-gray-50 rounded-lg p-4 space-y-2">
