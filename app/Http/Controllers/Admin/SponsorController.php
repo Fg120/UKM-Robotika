@@ -79,15 +79,15 @@ class SponsorController extends Controller
 
         Sponsor::create($validated);
 
-        return redirect()->route('sponsor.index')->with('success', 'Sponsor berhasil ditambahkan');
+        return redirect()->route('admin.sponsor.index')->with('success', 'Sponsor berhasil ditambahkan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Sponsor $sponsor): Response
+    public function show(Sponsor $sponsor)
     {
-        return Inertia::render('admin/sponsor/sponsorShow', [
+        return response()->json([
             'sponsor' => $sponsor,
         ]);
     }
@@ -124,7 +124,7 @@ class SponsorController extends Controller
 
         $sponsor->update($validated);
 
-        return redirect()->route('sponsor.index')->with('success', 'Sponsor berhasil diperbarui');
+        return redirect()->route('admin.sponsor.index')->with('success', 'Sponsor berhasil diperbarui');
     }
 
     /**
@@ -138,7 +138,7 @@ class SponsorController extends Controller
 
         $sponsor->delete();
 
-        return redirect()->route('sponsor.index')->with('success', 'Sponsor berhasil dihapus');
+        return redirect()->route('admin.sponsor.index')->with('success', 'Sponsor berhasil dihapus');
     }
 
     /**
@@ -149,6 +149,6 @@ class SponsorController extends Controller
         $sponsor = Sponsor::withTrashed()->findOrFail($id);
         $sponsor->restore();
 
-        return redirect()->route('sponsor.index')->with('success', 'Sponsor berhasil dipulihkan');
+        return redirect()->route('admin.sponsor.index')->with('success', 'Sponsor berhasil dipulihkan');
     }
 }

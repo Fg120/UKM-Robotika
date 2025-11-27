@@ -45,22 +45,34 @@ export default function SponsorEdit({
     useEffect(() => {
         if (open && sponsorId) {
             // Fetch sponsor data
-            fetch(route('sponsor.show', sponsorId))
-                .then(res => res.json())
+            console.log('Fetching sponsor data for ID:', sponsorId);
+            fetch(route('admin.sponsor.show', sponsorId))
+                .then(res => {
+                    console.log('Response status:', res.status);
+                    return res.json();
+                })
                 .then(data => {
-                    setSponsor(data.props.sponsor);
-                    setFormData({
-                        judul: data.props.sponsor.judul,
-                        deskripsi: data.props.sponsor.deskripsi || '',
-                        url: data.props.sponsor.url || '',
-                        foto: null,
-                    });
-                    if (data.props.sponsor.foto) {
-                        setPreview(`/storage/${data.props.sponsor.foto}`);
+                    console.log('Fetched data:', data);
+                    if (data.sponsor) {
+                        setSponsor(data.sponsor);
+                        setFormData({
+                            judul: data.sponsor.judul,
+                            deskripsi: data.sponsor.deskripsi || '',
+                            url: data.sponsor.url || '',
+                            foto: null,
+                        });
+                        if (data.sponsor.foto) {
+                            setPreview(`/storage/${data.sponsor.foto}`);
+                        }
+                    } else {
+                        console.error('Sponsor data missing in response');
                     }
                     setLoading(false);
                 })
-                .catch(() => setLoading(false));
+                .catch(err => {
+                    console.error('Error fetching sponsor:', err);
+                    setLoading(false);
+                });
         }
     }, [open, sponsorId]);
 
@@ -94,7 +106,7 @@ export default function SponsorEdit({
             form.append('foto', formData.foto);
         }
 
-        router.post(route('sponsor.update', sponsorId), form, {
+        router.post(route('admin.sponsor.update', sponsorId), form, {
             onSuccess: () => {
                 setFormData({ judul: '', deskripsi: '', url: '', foto: null });
                 setPreview(null);

@@ -47,16 +47,8 @@ class Kategori extends Model
     /**
      * Relasi dengan Artikel
      */
-    // public function artikels()
-    // {
-    //     return $this->hasMany(Artikel::class);
-    // }
-
-    /**
-     * Accessor untuk mendapatkan jumlah artikel
-     */
-    // public function getArtikelsCountAttribute()
-    // {
-    //     return $this->artikels()->count();
-    // }
+    public function artikel()
+    {
+        return $this->hasMany(Artikel::class);
+    }
 }

@@ -15,4 +15,7 @@ class Divisi extends Model
         'deskripsi',
         'image',
     ];
+
+    // Note: Divisi tidak memiliki relasi langsung dengan Pengurus
+    // Divisi adalah entitas terpisah untuk menampilkan informasi divisi organisasi
 }

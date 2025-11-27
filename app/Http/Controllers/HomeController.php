@@ -7,6 +7,8 @@ use App\Models\Galeri;
 use App\Models\Pengurus;
 use App\Models\Produk;
 use App\Models\Bidang;
+use App\Models\Divisi;
+use App\Models\Sponsor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -30,12 +32,6 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        // Get active products
-        $products = Produk::where('aktif', true)
-            ->orderBy('created_at', 'desc')
-            ->limit(6)
-            ->get();
-
         // Get latest gallery items
         $galleries = Galeri::orderBy('tanggal', 'desc')
             ->limit(6)
@@ -43,15 +39,26 @@ class HomeController extends Controller
 
         // Get departments/bidang
         $bidangs = Bidang::orderBy('urutan', 'asc')
-            ->limit(4)
             ->get();
+
+        // Get divisions/divisi
+        $divisis = Divisi::orderBy('created_at', 'asc')
+            ->limit(6)
+            ->get();
+
+        $sponsors = Sponsor::orderBy('created_at', 'asc')->get();
+
+        // Get total active pengurus (not soft deleted)
+        $totalPengurus = Pengurus::count();
 
         return Inertia::render('public/Home', [
             'latestArtikels' => $latestArtikels,
             'popularArtikels' => $popularArtikels,
-            'products' => $products,
             'galleries' => $galleries,
             'bidangs' => $bidangs,
+            'divisis' => $divisis,
+            'sponsors' => $sponsors,
+            'totalPengurus' => $totalPengurus,
         ]);
     }
 }

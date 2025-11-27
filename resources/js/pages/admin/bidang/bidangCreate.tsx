@@ -10,9 +10,10 @@ import { Loader2 } from 'lucide-react';
 interface BidangCreateProps {
   isOpen: boolean;
   onClose: () => void;
+  currentBidangId?: number;
 }
 
-export default function BidangCreate({ isOpen, onClose }: BidangCreateProps) {
+export default function BidangCreate({ isOpen, onClose, currentBidangId }: BidangCreateProps) {
   const [formData, setFormData] = useState<{ nama: string; deskripsi: string; image: File | null; urutan: string }>({ nama: '', deskripsi: '', image: null, urutan: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);

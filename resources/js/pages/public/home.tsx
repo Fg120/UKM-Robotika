@@ -7,16 +7,19 @@ import { Calendar, Eye, ArrowRight, Cpu, Zap, Target, Users, BookOpen, Image as 
 import PublicLayout from '@/layouts/public/PublicLayout';
 import Silk from '@/components/Silk';
 import BlurText from '@/components/BlurText';
+import HeroCarousel from '@/components/HeroCarousel';
 
 interface Props {
     latestArtikels: Artikel[];
     popularArtikels: Artikel[];
-    products: Produk[];
     galleries: Galeri[];
     bidangs: Bidang[];
+    divisis: Bidang[];
+    sponsors?: Array<{ id: number; judul: string; foto: string; url: string }>;
+    totalPengurus: number;
 }
 
-export default function Home({ latestArtikels, popularArtikels, products, galleries, bidangs }: Props) {
+export default function Home({ latestArtikels, popularArtikels, galleries, bidangs, divisis, sponsors = [], totalPengurus }: Props) {
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('id-ID', {
             year: 'numeric',
@@ -54,7 +57,7 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                                     Selamat Datang di
                                 </span>
                                 <br />
-                                <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                                <span className="text-[#1d4ed8] bg-white rounded-2xl px-2">
                                     UKM Robotika
                                 </span>
                             </h1>
@@ -83,29 +86,51 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                                 </a>
                             </div>
                         </div>
-                        <div className="relative">
-                            <div className="aspect-square bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 rounded-3xl flex items-center justify-center">
-                                <Cpu className="w-64 h-64 text-white/20" strokeWidth={1} />
-                            </div>
-                            <div className="absolute -top-4 -right-4 backdrop-blur-xl bg-white/10 border border-white/20 p-6 rounded-2xl shadow-2xl">
+                        <div className="relative w-full">
+                            <HeroCarousel interval={5000} />
+                            {/* <div className="hidden md:block absolute -top-10 -right-12 backdrop-blur-xl bg-white/10 border border-white/20 p-6 rounded-2xl shadow-2xl z-10">
                                 <div className="flex items-center gap-3">
                                     <div className="bg-blue-500/20 p-3 rounded-xl">
                                         <Users className="w-8 h-8 text-blue-400" />
                                     </div>
                                     <div className="text-white">
-                                        <div className="text-2xl font-bold">100+</div>
+                                        <div className="text-2xl font-bold">{totalPengurus}</div>
                                         <div className="text-sm text-gray-300">Anggota Aktif</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="absolute -bottom-4 -left-4 backdrop-blur-xl bg-white/10 border border-white/20 p-6 rounded-2xl shadow-2xl">
+                            </div> */}
+                            <div className="hidden md:block absolute -bottom-10 -left-12 backdrop-blur-xl bg-white/10 border border-white/20 p-6 rounded-2xl shadow-2xl">
                                 <div className="flex items-center gap-3">
                                     <div className="bg-purple-500/20 p-3 rounded-xl">
                                         <Target className="w-8 h-8 text-purple-400" />
                                     </div>
                                     <div className="text-white">
-                                        <div className="text-2xl font-bold">50+</div>
-                                        <div className="text-sm text-gray-300">Proyek Selesai</div>
+                                        <div className="text-2xl font-bold">{divisis.length}</div>
+                                        <div className="text-sm text-gray-300">Divisi Kompetisi</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="md:hidden flex gap-4 mt-6">
+                                <div className="flex-1 backdrop-blur-xl bg-white/10 border border-white/20 p-4 rounded-xl shadow-2xl">
+                                    <div className="flex items-center gap-2">
+                                        <div className="bg-blue-500/20 p-2 rounded-lg">
+                                            <Users className="w-6 h-6 text-blue-400" />
+                                        </div>
+                                        <div className="text-white">
+                                            <div className="text-lg font-bold">{totalPengurus}</div>
+                                            <div className="text-xs text-gray-300">Anggota</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex-1 backdrop-blur-xl bg-white/10 border border-white/20 p-4 rounded-xl shadow-2xl">
+                                    <div className="flex items-center gap-2">
+                                        <div className="bg-purple-500/20 p-2 rounded-lg">
+                                            <Target className="w-6 h-6 text-purple-400" />
+                                        </div>
+                                        <div className="text-white">
+                                            <div className="text-lg font-bold">{divisis.length}</div>
+                                            <div className="text-xs text-gray-300">Divisi</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -167,14 +192,14 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                 </div>
             </section>
 
-            {/* Bidang Section */}
-            {bidangs.length > 0 && (
-                <section className="py-16 bg-white">
+            {/* Divisi Section */}
+            {divisis.length > 0 && (
+                <section className="py-16 bg-gradient-to-b from-white to-gray-50">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
                             <h2 className="text-4xl font-bold mb-4">
                                 <BlurText
-                                    text="Bidang Keahlian"
+                                    text="Divisi Kompetisi"
                                     delay={100}
                                     animateBy="words"
                                     direction="top"
@@ -182,31 +207,114 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                                 />
                             </h2>
                             <p className="text-xl text-muted-foreground">
-                                Berbagai bidang yang kami tekuni
+                                Jelajahi berbagai divisi kompetisi robotika Indonesia (KRI) yang penuh inovasi
                             </p>
                         </div>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="flex flex-wrap justify-center gap-6">
+                            {divisis.map((divisi) => (
+                                <div key={divisi.id} className="w-full sm:w-96">
+                                    <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50 bg-black text-white h-full">
+                                        <CardHeader>
+                                            <CardTitle className="text-lg">{divisi.nama}</CardTitle>
+                                            {divisi.deskripsi && (
+                                                <CardDescription className="line-clamp-3 text-gray-300">
+                                                    {divisi.deskripsi}
+                                                </CardDescription>
+                                            )}
+                                        </CardHeader>
+                                    </Card>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* Bidang Section */}
+            {bidangs.length > 0 && (
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h2 className="text-4xl font-bold mb-4">
+                                <BlurText
+                                    text="Struktur Organisasi"
+                                    delay={100}
+                                    animateBy="words"
+                                    direction="top"
+                                    className="inline-block text-black"
+                                />
+                            </h2>
+                            <p className="text-xl text-muted-foreground">
+                                Kenali struktur dan bidang-bidang dalam organisasi kami
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap justify-center gap-6">
                             {bidangs.map((bidang) => (
-                                <Card key={bidang.id} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50">
-                                    {bidang.image && (
-                                        <div className="aspect-video overflow-hidden rounded-t-lg relative group">
-                                            <img
-                                                src={bidang.image}
-                                                alt={bidang.nama}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                        </div>
-                                    )}
-                                    <CardHeader>
-                                        <CardTitle className="text-lg">{bidang.nama}</CardTitle>
-                                        {bidang.deskripsi && (
-                                            <CardDescription className="line-clamp-3">
-                                                {bidang.deskripsi}
-                                            </CardDescription>
+                                <div key={bidang.id} className="w-full sm:w-80">
+                                    <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50">
+                                        {bidang.image && (
+                                            <div className="aspect-video overflow-hidden rounded-t-lg relative group">
+                                                <img
+                                                    src={bidang.image}
+                                                    alt={bidang.nama}
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                            </div>
                                         )}
-                                    </CardHeader>
-                                </Card>
+                                        <CardHeader>
+                                            <CardTitle className="text-lg">{bidang.nama}</CardTitle>
+                                            {bidang.deskripsi && (
+                                                <CardDescription className="line-clamp-3">
+                                                    {bidang.deskripsi}
+                                                </CardDescription>
+                                            )}
+                                        </CardHeader>
+                                    </Card>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* Sponsor Section */}
+            {sponsors && sponsors.length > 0 && (
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h2 className="text-4xl font-bold mb-4">
+                                <BlurText
+                                    text="Sponsor Kami"
+                                    delay={100}
+                                    animateBy="words"
+                                    direction="top"
+                                    className="inline-block text-black"
+                                />
+                            </h2>
+                            <p className="text-xl text-muted-foreground">
+                                Terima kasih atas dukungan dari para sponsor
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap justify-center items-center gap-8">
+                            {sponsors.map((sponsor) => (
+                                <a
+                                    href={sponsor.url ?? '#'}
+                                    key={sponsor.id}
+                                    className="group relative h-24 flex items-center justify-center"
+                                >
+                                    <img
+                                        src={sponsor.foto}
+                                        alt={sponsor.judul}
+                                        className="h-full object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                                    />
+                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                        <div className="bg-gray-900 text-white text-sm px-3 py-1 rounded whitespace-nowrap">
+                                            {sponsor.judul}
+                                        </div>
+                                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                                    </div>
+                                </a>
                             ))}
                         </div>
                     </div>
@@ -291,66 +399,6 @@ export default function Home({ latestArtikels, popularArtikels, products, galler
                     </div>
                 </div>
             </section>
-
-            {/* Products Section */}
-            {products.length > 0 && (
-                <section id="products" className="py-16 bg-white">
-                    <div className="container mx-auto px-4">
-                        <div className="text-center mb-12">
-                            <h2 className="text-4xl font-bold mb-4">
-                                <BlurText
-                                    text="Produk & Karya Kami"
-                                    delay={100}
-                                    animateBy="words"
-                                    direction="top"
-                                    className="inline-block text-black"
-                                />
-                            </h2>
-                            <p className="text-xl text-muted-foreground">
-                                Hasil inovasi dan kreativitas anggota UKM Robotika
-                            </p>
-                        </div>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {products.map((product) => (
-                                <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50">
-                                    {product.image ? (
-                                        <div className="aspect-video overflow-hidden relative group">
-                                            <img
-                                                src={product.image}
-                                                alt={product.nama}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                        </div>
-                                    ) : (
-                                        <div className="aspect-video bg-gradient-to-br from-primary/20 via-blue-500/10 to-purple-500/20 flex items-center justify-center">
-                                            <Cpu className="w-16 h-16 text-primary/30" />
-                                        </div>
-                                    )}
-                                    <CardHeader>
-                                        <CardTitle>{product.nama}</CardTitle>
-                                        {product.keterangan && (
-                                            <CardDescription className="line-clamp-2">
-                                                {product.keterangan}
-                                            </CardDescription>
-                                        )}
-                                    </CardHeader>
-                                    <CardContent>
-                                        {product.url && (
-                                            <a href={product.url} target="_blank" rel="noopener noreferrer">
-                                                <Button variant="outline" className="w-full gap-2">
-                                                    Lihat Detail
-                                                    <ArrowRight className="w-4 h-4" />
-                                                </Button>
-                                            </a>
-                                        )}
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
 
             {/* Gallery Section */}
             {galleries.length > 0 && (

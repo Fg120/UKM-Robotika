@@ -55,7 +55,7 @@ export default function SponsorCreate({ open, onClose }: SponsorCreateProps) {
             form.append('foto', formData.foto);
         }
 
-        router.post(route('sponsor.store'), form, {
+        router.post(route('admin.sponsor.store'), form, {
             onSuccess: () => {
                 setFormData({ judul: '', deskripsi: '', url: '', foto: null });
                 setPreview(null);

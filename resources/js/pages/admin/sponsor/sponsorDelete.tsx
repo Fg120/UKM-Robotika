@@ -33,10 +33,10 @@ export default function SponsorDelete({
 
     useEffect(() => {
         if (open && sponsorId) {
-            fetch(route('sponsor.show', sponsorId))
+            fetch(route('admin.sponsor.show', sponsorId))
                 .then(res => res.json())
                 .then(data => {
-                    setSponsor(data.props.sponsor);
+                    setSponsor(data.sponsor);
                     setLoading(false);
                 })
                 .catch(() => setLoading(false));
@@ -45,7 +45,7 @@ export default function SponsorDelete({
 
     const handleDelete = () => {
         setDeleting(true);
-        router.delete(route('sponsor.destroy', sponsorId), {
+        router.delete(route('admin.sponsor.destroy', sponsorId), {
             onSuccess: () => {
                 setDeleting(false);
                 onClose();

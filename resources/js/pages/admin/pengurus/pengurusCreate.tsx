@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo, useEffect } from 'react';
 import { router } from '@inertiajs/react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -30,6 +30,12 @@ export default function PengurusCreate({ isOpen, onClose, bidangs, posisis, sele
   const [formData, setFormData] = useState<{ nama: string; posisi_id: string; bidang_id: string; image: File | null; sosmeds: { platform: string; icon: string; url: string }[] }>({ nama: '', posisi_id: '', bidang_id: selectedBidang && selectedBidang !== 'all' ? selectedBidang : '', image: null, sosmeds: [] });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({ nama: '', posisi_id: '', bidang_id: selectedBidang && selectedBidang !== 'all' ? selectedBidang : '', image: null, sosmeds: [] });
+    }
+  }, [isOpen, selectedBidang]);
 
   const addSosmed = () => setFormData({ ...formData, sosmeds: [...formData.sosmeds, { platform: '', icon: '', url: '' }] });
   const removeSosmed = (i: number) => setFormData({ ...formData, sosmeds: formData.sosmeds.filter((_, idx) => idx !== i) });

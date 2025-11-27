@@ -33,5 +33,12 @@ class Tag extends Model
             }
         });
     }
-}
 
+    /**
+     * Relasi dengan Artikel (many-to-many)
+     */
+    public function artikel()
+    {
+        return $this->belongsToMany(Artikel::class, 'artikel_tag');
+    }
+}

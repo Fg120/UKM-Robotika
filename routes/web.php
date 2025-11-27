@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\ArtikelPublicController;
 use App\Http\Controllers\DivisiPublicController;
+use App\Http\Controllers\PengurusPublicController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -29,10 +30,19 @@ Route::get('/artikel/{slug}', [ArtikelPublicController::class, 'show'])->name('a
 // Public Divisi Routes
 Route::get('/divisi', [DivisiPublicController::class, 'index'])->name('divisi.index');
 
+// Public Pengurus Routes
+Route::get('/pengurus', [PengurusPublicController::class, 'index'])->name('pengurus.index');
+
+// Public Galeri Routes
+Route::get('/galeri', [App\Http\Controllers\GaleriPublicController::class, 'index'])->name('galeri.index');
+
+// Public Produk Routes
+Route::get('/produk', [App\Http\Controllers\ProdukPublicController::class, 'index'])->name('produk.index');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('users')->name('users.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->middleware('permission:view users')->name('index');
             Route::get('/create', [UserController::class, 'create'])->middleware('permission:create users')->name('create');

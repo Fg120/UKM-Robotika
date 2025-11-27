@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import Silk from '@/components/Silk';
+import { Instagram, Linkedin, Music } from 'lucide-react';
 
 export default function Footer() {
     return (
@@ -37,22 +38,22 @@ export default function Footer() {
                     <div>
                         <h3 className="font-semibold mb-4 text-white">Kontak</h3>
                         <ul className="space-y-2 text-sm text-gray-300">
-                            <li>Email: info@ukmrobotika.ac.id</li>
-                            <li>Telp: (021) 12345678</li>
-                            <li>Alamat: Kampus Universitas</li>
+                            <li><Link href="mailto:robotika.teknik@unej.ac.id">Email: robotika.teknik@unej.ac.id</Link></li>
+                            {/* <li>Telp: (021) 12345678</li> */}
+                            <li><Link href="https://maps.app.goo.gl/hVYLShtMFocbJNdS6" target="_blank" rel="noopener noreferrer">Alamat: RPQ5+5V9, Wetan Ktr., Jemberlor, Kec. Patrang, Kabupaten Jember, Jawa Timur</Link></li>
                         </ul>
                     </div>
                     <div>
                         <h3 className="font-semibold mb-4 text-white">Media Sosial</h3>
                         <div className="flex gap-4">
-                            <Link href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                                <span className="text-sm font-semibold">IG</span>
+                            <Link href="https://www.instagram.com/robotika_unej" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <Instagram className="w-5 h-5 text-white" />
                             </Link>
-                            <Link href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-red-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                                <span className="text-sm font-semibold">YT</span>
+                            <Link href="https://www.linkedin.com/company/unej-robotics/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-red-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <Linkedin className="w-5 h-5 text-white" />
                             </Link>
-                            <Link href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-400 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                                <span className="text-sm font-semibold">TW</span>
+                            <Link href="https://www.tiktok.com/@robotikaunej" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-400 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <svg fill="#ffffff" width="16px" height="16px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>tiktok</title> <path d="M16.656 1.029c1.637-0.025 3.262-0.012 4.886-0.025 0.054 2.031 0.878 3.859 2.189 5.213l-0.002-0.002c1.411 1.271 3.247 2.095 5.271 2.235l0.028 0.002v5.036c-1.912-0.048-3.71-0.489-5.331-1.247l0.082 0.034c-0.784-0.377-1.447-0.764-2.077-1.196l0.052 0.034c-0.012 3.649 0.012 7.298-0.025 10.934-0.103 1.853-0.719 3.543-1.707 4.954l0.020-0.031c-1.652 2.366-4.328 3.919-7.371 4.011l-0.014 0c-0.123 0.006-0.268 0.009-0.414 0.009-1.73 0-3.347-0.482-4.725-1.319l0.040 0.023c-2.508-1.509-4.238-4.091-4.558-7.094l-0.004-0.041c-0.025-0.625-0.037-1.25-0.012-1.862 0.49-4.779 4.494-8.476 9.361-8.476 0.547 0 1.083 0.047 1.604 0.136l-0.056-0.008c0.025 1.849-0.050 3.699-0.050 5.548-0.423-0.153-0.911-0.242-1.42-0.242-1.868 0-3.457 1.194-4.045 2.861l-0.009 0.030c-0.133 0.427-0.21 0.918-0.21 1.426 0 0.206 0.013 0.41 0.037 0.61l-0.002-0.024c0.332 2.046 2.086 3.59 4.201 3.59 0.061 0 0.121-0.001 0.181-0.004l-0.009 0c1.463-0.044 2.733-0.831 3.451-1.994l0.010-0.018c0.267-0.372 0.45-0.822 0.511-1.311l0.001-0.014c0.125-2.237 0.075-4.461 0.087-6.698 0.012-5.036-0.012-10.060 0.025-15.083z"></path> </g></svg>
                             </Link>
                         </div>
                     </div>

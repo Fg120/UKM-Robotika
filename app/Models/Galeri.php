@@ -19,5 +19,11 @@ class Galeri extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? url('storage/' . $this->image) : null;
+    }
 }
 

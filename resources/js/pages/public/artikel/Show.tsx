@@ -60,7 +60,7 @@ export default function ArtikelShow({ artikel, relatedArtikels }: Props) {
                 <div className="my-8">
                     <div className="flex items-center gap-2 mb-4 flex-wrap">
                         {artikel.kategori && (
-                            <Badge variant="secondary" className="text-sm text-black">
+                            <Badge variant="secondary" className="text-sm text-white">
                                 {artikel.kategori.nama}
                             </Badge>
                         )}
@@ -81,7 +81,7 @@ export default function ArtikelShow({ artikel, relatedArtikels }: Props) {
                         </p>
                     )}
 
-                    <div className="flex items-center gap-6 text-muted-foreground bg-slate-700 p-4 rounded-full w-fit flex-wrap">
+                    <div className="flex items-center gap-6 text-muted-foreground bg-slate-700 p-4 rounded-full w-fit flex-wrap text-white">
                         {artikel.user && (
                             <div className="flex items-center gap-2">
                                 <User className="w-5 h-5" />

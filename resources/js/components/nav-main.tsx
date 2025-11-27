@@ -71,12 +71,12 @@ export function NavMain({
                 {items.map(item => {
                     // Check if item has sub-items (dropdown) or is a single item
                     const hasSubItems = item.items && item.items.length > 0;
-                    
+
                     if (!hasSubItems) {
                         // Single item without dropdown
                         const itemPath = extractPath(item.url)
                         const isActive = path === itemPath || path.startsWith(itemPath + '/')
-                        
+
                         return (
                             <SidebarMenuItem key={item.title}>
                                 <SidebarMenuButton asChild isActive={isActive} className="py-4" tooltip={item.title}>
@@ -88,7 +88,7 @@ export function NavMain({
                             </SidebarMenuItem>
                         )
                     }
-                    
+
                     // Dropdown item with sub-items
                     const isActive = activeKeys[item.title]
                     return (

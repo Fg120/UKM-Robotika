@@ -21,4 +21,11 @@ class Produk extends Model
     protected $casts = [
         'aktif' => 'boolean',
     ];
+
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? url('storage/' . $this->image) : null;
+    }
 }

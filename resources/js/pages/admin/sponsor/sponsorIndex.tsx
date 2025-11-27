@@ -110,7 +110,7 @@ export default function SponsorIndex({ sponsors, filters }: Props) {
                         />
                     </div>
 
-                    <div className="overflow-x-auto">
+                    <div className="border rounded-lg">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -210,12 +210,6 @@ export default function SponsorIndex({ sponsors, filters }: Props) {
                             </TableBody>
                         </Table>
                     </div>
-
-                    {sponsors.data.length === 0 && (
-                        <div className="text-center py-8 text-gray-500">
-                            Belum ada data sponsor
-                        </div>
-                    )}
 
                     {sponsors.links && sponsors.links.length > 1 && (
                         <div className="flex justify-center gap-1 mt-6">
